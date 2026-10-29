@@ -1,28 +1,34 @@
-# Fab-Form Pallet Weight Estimator
+# Fab-Form Calculators
 
-Estimates the shipping weight of a pallet of Fab-Form products, using the unit and box weights from the
-Contractor price list (July 2026).
+One page, two tabs, sharing the same header and light/dark toggle:
 
-- Type a quantity or press **+ Box** to add a full box (e.g. 4 FF50 rolls, 20 Zonts, 2 Fast-Tube rolls)
-- Partly-filled boxes count the product inside plus the empty box
-- **Custom boxes**: build your own mixed box (e.g. *FF50 kit = 1 × FF50 roll + 5 × FF50C*), with an
-  empty-box weight and optional size. Use "Other item" for anything not on the list
-- Pick whether Zonts ship in cardboard boxes or Zote totes, and Zuckles in boxes or Lo Zote totes
-- Number of pallets and empty-pallet weight (default 45 lb) are editable
-- Totals in lb and kg, box count, carton volume (ft³), **Copy summary** and **Print / PDF**
-- Edits (quantities, custom boxes, weight overrides) are remembered in your browser
+- **Rental Quote** (`#rental`): used-equipment rental quote (from `Rental-Calculator`)
+- **Pallet Weight** (`#weight`): shipping weight, box sizes, pallet L × W × H and product value (from `Weight-Calculator-FBF`)
+
+Link straight to a tab with `.../index.html#rental` or `.../index.html#weight`. The page remembers the last tab,
+and each tab keeps its own quantities and settings in the browser (old saved data from both original pages still loads).
+
+## Pallet Weight: what's new
+
+- **Contractor prices (July 2026)** on every product, with a *Product value* total (before shipping and tax, FOB Delta)
+- Products added from the price list: **Level-R**, **MPHD**, **MID ZOTE**
+- **Box size (L × W × H)** shown on every card, summary line and copied summary
+- **Pallet size:** Small 44 × 30 or Big 48 × 44. Enter the height **H**, or leave it blank to have it estimated
+  (5" pallet deck + box volume spread over the footprint at 85% fill, never shorter than the tallest box lying flat).
+  Shows pallet L × W × H and density (lb/ft³)
+- **Fast-Tube packing** (H = height of that size's 10' Fast-Tube box: 13, 16, 20, 23, 26, 30):
+  - 100' rolls: **Half box H × 21 × 6** (1 roll, default), **Full box** 11 × 21 × H (2 rolls), or **Full + half** (pairs in full boxes, odd roll in a half box)
+  - 10' pieces: full boxes of 20, with leftovers going in a **sample box H × 10 × 6** (capacity editable, default 5)
+  - Half and sample box empty weights are estimated from cardboard area (0.001 lb/in²)
 
 ## Put it live with GitHub Pages
 
-1. Create a new public repo (e.g. `pallet-weight`).
-2. Upload `index.html` and the `images/` folder to the repo root.
-3. **Settings → Pages** → Deploy from a branch → `main`, `/ (root)` → Save.
-4. Link: `https://vatsalyarabari.github.io/pallet-weight/`
+Upload `index.html` and the `images/` folder to the repo root, then **Settings → Pages → Deploy from a branch → `main`, `/ (root)`**.
 
-## Updating weights
+## Editing data
 
-Edit the `PRODUCTS` list in `index.html`: `wt` is one unit's weight (lb), `per` is units per box,
-`boxWt` is a full box from the price list, `dims` is the box size in inches.
-The empty-box weight is worked out as `boxWt − per × wt`.
+- Rental prices: `PRODUCTS` in the *RENTAL QUOTE* script block
+- Weights, prices, box sizes: `PRODUCTS` in the *PALLET WEIGHT* script block (`price`, `wt`, `per`, `dims`, `boxWt`; Fast-Tube rows also have `ft` and `ftH`)
+- Pallet footprints, deck height, fill factor, cardboard weight: `PALLETS`, `PALLET_DECK`, `PALLET_FILL`, `CARDBOARD`
 
-Note: the price list shows the FT16 roll as "2.4" per box; this uses 2 (2 × 19.8 lb + box = 42 lb).
+Note: the price list shows the FT16 roll as "2.4" per box and FT18 roll as "20" per box. Both are treated as 2.

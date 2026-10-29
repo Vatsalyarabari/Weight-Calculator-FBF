@@ -3,32 +3,28 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Fab-Form Pallet Weight</title>
+<title>Fab-Form Calculators</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,900&display=swap" rel="stylesheet">
 <style>
-:root{
-  --navy:#202839; --navy-2:#373e4d; --orange:#fcae17; --gold:#9c6c00; --soft:#fff7e6;
+/* ===== shared ===== */
+:root{--navy:#202839; --navy-2:#373e4d; --orange:#fcae17; --gold:#9c6c00; --soft:#fff7e6;
   --bg:#ffffff; --panel:#ffffff; --panel-2:#f8f9fa; --ink:#212529; --ink-2:#6c757d; --line:#dee2e6;
-  --good:#198754; --warn:#b02a37; --img-bg:#ffffff;
-}
+  --good:#198754; --warn:#b02a37; --img-bg:#ffffff;}
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
     --bg:#151a26; --panel:#1c2232; --panel-2:#242b3d; --ink:#e9ecef; --ink-2:#9aa3b2; --line:#323a4f;
     --gold:#fcae17; --soft:#3a3220; --good:#4fc28a; --warn:#ff8a95; --img-bg:#f4f4f2;
   }
 }
-:root[data-theme="dark"]{
-  --bg:#151a26; --panel:#1c2232; --panel-2:#242b3d; --ink:#e9ecef; --ink-2:#9aa3b2; --line:#323a4f;
-  --gold:#fcae17; --soft:#3a3220; --good:#4fc28a; --warn:#ff8a95; --img-bg:#f4f4f2;
-}
+:root[data-theme="dark"]{--bg:#151a26; --panel:#1c2232; --panel-2:#242b3d; --ink:#e9ecef; --ink-2:#9aa3b2; --line:#323a4f;
+  --gold:#fcae17; --soft:#3a3220; --good:#4fc28a; --warn:#ff8a95; --img-bg:#f4f4f2;}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 html,body{margin:0}
 body{background:var(--bg);color:var(--ink);font:16px/1.5 "Roboto",system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
 button,input,select{font:inherit;color:inherit}
-
 .topbar{background:var(--navy);color:#fff}
 .topbar-in{max-width:1320px;margin:0 auto;padding:0 16px;height:62px;display:flex;align-items:center;gap:28px}
 .wordmark{font:italic 900 30px/1 "Roboto",sans-serif;color:var(--orange);letter-spacing:-.5px;white-space:nowrap;transform:skewX(-6deg)}
@@ -41,173 +37,404 @@ button,input,select{font:inherit;color:inherit}
 .subbar{border-bottom:1px solid var(--line)}
 .subbar-in{max-width:1320px;margin:0 auto;padding:6px 16px;text-align:right;font-size:14px;color:var(--ink-2)}
 .subbar-in b{color:var(--ink)}
-
-.wrap{max-width:1320px;margin:0 auto;padding:22px 16px 60px}
-header.page{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:18px}
-h1{margin:0;font-weight:500;font-size:28px;line-height:1.2}
-.sub{color:var(--ink-2);font-size:14px;margin-top:2px}
-
-.btn{border:1px solid var(--line);background:var(--panel);border-radius:4px;padding:8px 14px;cursor:pointer;font-weight:500;font-size:15px;transition:background .15s,border-color .15s}
-.btn:hover{border-color:var(--ink-2)}
-.btn.primary{background:var(--orange);border-color:var(--orange);color:var(--navy);font-weight:700}
-.btn.primary:hover{filter:brightness(.96)}
-.btn.navy{background:var(--navy);border-color:var(--navy);color:#fff}
-.btn.navy:hover{background:var(--navy-2)}
-.btn.sm{padding:4px 10px;font-size:13px}
-
-/* pallet bar */
-.palletbar{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--orange);border-radius:4px;padding:14px 18px;display:flex;flex-wrap:wrap;gap:14px 26px;align-items:center;margin-bottom:20px}
-.pb-item{display:flex;flex-direction:column;gap:4px}
-.pb-label{font-size:12px;text-transform:uppercase;letter-spacing:.7px;color:var(--ink-2);font-weight:500}
-.mini-step{display:grid;grid-template-columns:32px 56px 32px;border:1px solid var(--line);border-radius:4px;overflow:hidden;height:36px}
-.mini-step button{border:0;background:var(--panel-2);cursor:pointer;font-size:17px}
-.mini-step button:hover{background:var(--soft)}
-.mini-step input{border:0;border-left:1px solid var(--line);border-right:1px solid var(--line);text-align:center;font-weight:700;background:var(--panel);width:100%;-moz-appearance:textfield}
-.unit-in{display:flex;align-items:center;gap:6px;color:var(--ink-2);font-size:14px}
-.unit-in input{width:72px;height:36px;border:1px solid var(--line);border-radius:4px;padding:4px 8px;background:var(--panel);font-weight:500}
-.seg{display:inline-flex;border:1px solid var(--line);border-radius:4px;overflow:hidden;height:36px}
-.seg button{border:0;background:var(--panel);padding:0 12px;cursor:pointer;font-size:14px;font-weight:500;color:var(--ink-2)}
-.seg button+button{border-left:1px solid var(--line)}
-.seg button.on{background:var(--soft);color:var(--ink);font-weight:700;box-shadow:inset 0 -2px 0 var(--orange)}
-
-/* layout */
-.layout{display:grid;grid-template-columns:minmax(0,1fr) 390px;gap:22px;align-items:start}
-.toolbar{display:flex;gap:12px 14px;align-items:center;flex-wrap:wrap;margin-bottom:6px}
-.search{flex:1;min-width:180px;border:0;border-bottom:1px solid var(--line);background:transparent;padding:10px 4px;font-size:16px;outline:none}
-.search:focus{border-bottom-color:var(--orange)}
-.chips{display:flex;gap:6px;flex-wrap:wrap}
-.chip{border:1px solid var(--line);background:var(--panel);border-radius:4px;padding:6px 12px;font-weight:500;cursor:pointer;font-size:14px}
-.chip:hover{border-color:var(--orange)}
-.chip.on{background:var(--soft);border-color:var(--orange);font-weight:700}
-.toggle{display:flex;align-items:center;gap:7px;font-size:15px;color:var(--ink-2);cursor:pointer;user-select:none}
-.toggle input{accent-color:var(--orange);width:16px;height:16px}
-
-.section-title{font-size:18px;font-weight:500;color:var(--ink);margin:22px 2px 12px;display:flex;align-items:center;gap:12px}
-.section-title::after{content:"";flex:1;height:1px;background:var(--line)}
-.section-title .sub-note{font-size:13px;color:var(--ink-2);font-weight:400}
-
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:14px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:4px;overflow:hidden;display:flex;flex-direction:column;transition:border-color .15s,box-shadow .15s}
-.card:hover{box-shadow:0 4px 14px rgba(32,40,57,.08)}
-.card.active{border-color:var(--orange);box-shadow:0 0 0 1px var(--orange)}
-.thumb{position:relative;height:118px;background:var(--img-bg);display:flex;align-items:center;justify-content:center;padding:12px;overflow:hidden}
-.thumb img{display:block;width:100%;height:100%;object-fit:contain}
-.thumb.code{background:var(--navy)}
-.thumb .codetxt{font:italic 900 30px/1 "Roboto",sans-serif;color:var(--orange);letter-spacing:-.3px;text-align:center}
-.thumb .codesub{position:absolute;bottom:8px;left:0;right:0;text-align:center;font-size:12px;color:#c3c7cf;letter-spacing:.5px;text-transform:uppercase}
-.thumb.custom{background:var(--soft)}
-.thumb.custom .codetxt{color:var(--gold);font-size:22px;padding:0 8px}
-.qty-badge{position:absolute;top:8px;right:8px;background:var(--orange);color:var(--navy);font-weight:700;font-size:13px;padding:2px 9px;border-radius:999px;display:none}
-.card.active .qty-badge{display:block}
-.codetag{position:absolute;top:8px;left:8px;background:var(--navy);color:var(--orange);font-size:11px;font-weight:700;letter-spacing:.5px;padding:2px 7px;border-radius:3px}
-.body{padding:10px 12px 12px;display:flex;flex-direction:column;gap:7px;flex:1}
-.name{font-size:18px;font-weight:400;color:var(--gold);line-height:1.2}
-.spec{font-size:13px;color:var(--ink-2);line-height:1.35}
-.spec input{width:58px;border:1px solid var(--line);background:var(--panel);border-radius:4px;padding:1px 5px;font-size:14px;color:var(--ink)}
-.spec input.changed{border-color:var(--orange);background:var(--soft)}
-.qrow{display:flex;gap:6px;margin-top:auto}
-.stepper{flex:1;display:grid;grid-template-columns:34px 1fr 34px;border:1px solid var(--line);border-radius:4px;overflow:hidden}
-.stepper button{border:0;background:var(--panel-2);cursor:pointer;font-size:18px;line-height:1}
-.stepper button:hover{background:var(--soft);color:var(--gold)}
-.stepper input{border:0;border-left:1px solid var(--line);border-right:1px solid var(--line);background:var(--panel);text-align:center;font-weight:700;font-size:16px;padding:6px 0;width:100%;-moz-appearance:textfield}
 input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
-.boxbtn{border:1px solid var(--navy);background:var(--navy);color:#fff;border-radius:4px;padding:0 10px;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap}
-.boxbtn:hover{background:var(--navy-2)}
-.breakdown{font-size:13px;color:var(--ink-2);min-height:19px}
-.breakdown b{color:var(--gold)}
-.line-total{display:flex;justify-content:space-between;font-size:14px;color:var(--ink-2);border-top:1px solid var(--line);padding-top:7px}
-.line-total b{color:var(--ink);font-size:16px}
-.card-actions{display:flex;gap:6px}
-.card-actions button{border:0;background:none;color:var(--gold);text-decoration:underline;cursor:pointer;padding:0;font-size:13px}
-.card-actions button.del{color:var(--warn)}
-
-/* custom box editor */
-.editor{background:var(--panel);border:1px solid var(--orange);border-radius:4px;padding:16px;margin-bottom:14px;display:grid;gap:12px}
-.editor h3{margin:0;font-weight:500;font-size:18px}
-.ed-top{display:grid;grid-template-columns:2fr 1fr 1.2fr;gap:10px}
-.ed-field{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--ink-2)}
-.ed-field input,.ed-row select,.ed-row input{border:1px solid var(--line);background:var(--panel);border-radius:4px;padding:7px 9px;font-size:15px;color:var(--ink);width:100%}
-.ed-rows{display:grid;gap:8px}
-.ed-row{display:grid;grid-template-columns:minmax(0,1fr) 84px 90px 34px;gap:8px;align-items:center}
-.ed-row .other{display:grid;grid-template-columns:1fr 84px;gap:8px}
-.ed-row .rm{border:0;background:none;color:var(--warn);font-size:20px;cursor:pointer}
-.ed-row .rw{font-size:14px;color:var(--ink-2);text-align:right}
-.ed-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:12px}
-.ed-total{font-size:15px;color:var(--ink-2)}
-.ed-total b{font-size:22px;color:var(--ink)}
-.ed-head{font-size:12px;text-transform:uppercase;letter-spacing:.7px;color:var(--ink-2);display:grid;grid-template-columns:minmax(0,1fr) 84px 90px 34px;gap:8px}
-
-/* summary */
-aside{position:sticky;top:16px}
-.panel{background:var(--panel);border:1px solid var(--line);border-radius:4px;overflow:hidden}
-.panel h2{margin:0;padding:13px 16px;font-weight:500;font-size:19px;background:var(--navy);color:#fff;display:flex;justify-content:space-between;align-items:center}
-.panel h2 span{font-weight:400;font-size:14px;color:var(--orange)}
-.lines{max-height:360px;overflow:auto;padding:4px 16px}
-.lines .empty{color:var(--ink-2);padding:22px 0;text-align:center;font-size:15px}
-.ln{display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding:9px 0;border-bottom:1px solid var(--line)}
-.ln:last-child{border-bottom:0}
-.ln .n{font-weight:500}
-.ln .d{grid-column:1;color:var(--ink-2);font-size:13px}
-.ln .t{grid-row:1/3;grid-column:2;align-self:center;font-weight:700;white-space:nowrap}
-.totals{padding:12px 16px;border-top:1px solid var(--line);background:var(--panel-2);display:grid;gap:6px}
-.row{display:flex;justify-content:space-between;align-items:center;font-size:15px}
-.row.muted{color:var(--ink-2)}
-.row.grand{font-size:30px;font-weight:700;line-height:1.1;margin-top:6px;padding-top:10px;border-top:2px solid var(--orange)}
-.row.kg{font-size:17px;font-weight:500;color:var(--ink-2);justify-content:flex-end}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border-top:1px solid var(--line)}
-.stat{background:var(--panel);padding:10px 12px}
-.stat .k{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--ink-2)}
-.stat .v{font-size:18px;font-weight:700}
-.stat .v small{font-size:12px;font-weight:400;color:var(--ink-2)}
-.warnbox{margin:0 16px 0;padding:8px 10px;border-radius:4px;background:var(--soft);font-size:13px;color:var(--ink)}
-.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:12px 16px 16px}
-.actions .btn{width:100%}
-.note{font-size:12.5px;color:var(--ink-2);padding:10px 2px 0;line-height:1.45}
-
 .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(20px);background:var(--navy);color:#fff;border-left:4px solid var(--orange);padding:10px 16px;border-radius:4px;font-weight:500;opacity:0;transition:.2s;pointer-events:none;z-index:9}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-
-@media (max-width:1000px){
-  .layout{grid-template-columns:1fr}
-  aside{position:static}
-}
 @media (max-width:640px){
-  .nav{display:none}
-  .wordmark{font-size:24px}
-  .ed-top{grid-template-columns:1fr 1fr}
-  .ed-top .ed-field:first-child{grid-column:1/-1}
-  .ed-row,.ed-head{grid-template-columns:minmax(0,1fr) 64px 34px}
-  .ed-row .rw,.ed-head .rwh{display:none}
+.nav{display:none}
+.wordmark{font-size:24px}
+}
+
+/* tabs */
+.tabs{display:flex;gap:4px;height:100%;align-items:stretch}
+.tab-btn{background:none;border:0;color:#c3c7cf;font-size:18px;padding:0 14px;cursor:pointer;border-bottom:3px solid transparent;border-top:3px solid transparent}
+.tab-btn:hover{color:#fff}
+.tab-btn.on{color:#fff;border-bottom-color:var(--orange);font-weight:500}
+.tab-panel[hidden]{display:none!important}
+@media (max-width:640px){ .tab-btn{font-size:14px;padding:0 7px;white-space:nowrap} .wordmark{font-size:20px!important} .topbar-in{gap:12px} }
+@media print{ .topbar,.subbar{display:none!important} body{background:#fff;color:#000} }
+
+/* ===== Rental tab ===== */
+#tab-rental .wrap{max-width:1320px;margin:0 auto;padding:22px 16px 60px}
+#tab-rental header.page{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+#tab-rental h1{margin:0;font-weight:500;font-size:28px;line-height:1.2}
+#tab-rental .sub{color:var(--ink-2);font-size:14px;margin-top:2px}
+#tab-rental .btn{border:1px solid var(--line);background:var(--panel);border-radius:4px;padding:8px 14px;cursor:pointer;font-weight:500;font-size:15px;transition:background .15s,border-color .15s}
+#tab-rental .btn:hover{border-color:var(--ink-2)}
+#tab-rental .btn.primary{background:var(--orange);border-color:var(--orange);color:var(--navy);font-weight:700}
+#tab-rental .btn.primary:hover{filter:brightness(.96)}
+#tab-rental .btn.ghost{background:transparent}
+#tab-rental .duration{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:16px 18px;display:grid;grid-template-columns:auto 1fr auto;gap:22px;align-items:center;margin-bottom:20px;border-left:4px solid var(--orange)}
+#tab-rental .dur-readout .label{font-size:12px;text-transform:uppercase;letter-spacing:.8px;color:var(--ink-2);font-weight:500}
+#tab-rental .dur-readout .big{font-weight:700;font-size:32px;line-height:1;margin-top:4px;color:var(--ink)}
+#tab-rental .dur-readout .small{color:var(--ink-2);font-size:14px;margin-top:4px}
+#tab-rental .dur-controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+#tab-rental .group{display:flex;gap:6px;align-items:center;padding-right:12px;border-right:1px solid var(--line)}
+#tab-rental .group:last-child{border-right:0}
+#tab-rental .group-label{font-size:12px;color:var(--ink-2);font-weight:500;text-transform:uppercase;letter-spacing:.6px;margin-right:2px}
+#tab-rental .chip{border:1px solid var(--line);background:var(--panel);border-radius:4px;padding:7px 14px;font-weight:500;cursor:pointer;font-size:15px}
+#tab-rental .chip:hover{border-color:var(--orange)}
+#tab-rental .chip.on{background:var(--soft);border-color:var(--orange);color:var(--ink);font-weight:700}
+#tab-rental .chip.add{background:var(--navy);border-color:var(--navy);color:#fff}
+#tab-rental .chip.add:hover{background:var(--navy-2)}
+#tab-rental .chip.sub{color:var(--ink-2)}
+#tab-rental .hint{color:var(--ink-2);font-size:13px}
+#tab-rental .layout{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:22px;align-items:start}
+#tab-rental .toolbar{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:6px}
+#tab-rental .search{flex:1;min-width:180px;border:0;border-bottom:1px solid var(--line);background:transparent;padding:10px 4px;font-size:16px;outline:none}
+#tab-rental .search:focus{border-bottom-color:var(--orange)}
+#tab-rental .toggle{display:flex;align-items:center;gap:7px;font-size:15px;color:var(--ink-2);cursor:pointer;user-select:none}
+#tab-rental .toggle input{accent-color:var(--orange);width:16px;height:16px}
+#tab-rental .section-title{font-size:18px;font-weight:500;color:var(--ink);margin:20px 2px 12px;display:flex;align-items:center;gap:12px}
+#tab-rental .section-title::after{content:"";flex:1;height:1px;background:var(--line)}
+#tab-rental .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px}
+#tab-rental .card{background:var(--panel);border:1px solid var(--line);border-radius:4px;overflow:hidden;display:flex;flex-direction:column;transition:border-color .15s,box-shadow .15s}
+#tab-rental .card:hover{box-shadow:0 4px 14px rgba(32,40,57,.08)}
+#tab-rental .card.active{border-color:var(--orange);box-shadow:0 0 0 1px var(--orange)}
+#tab-rental .thumb{position:relative;height:160px;background:var(--img-bg);display:flex;align-items:center;justify-content:center;padding:14px;overflow:hidden}
+#tab-rental .thumb img{display:block;width:100%;height:100%;object-fit:contain}
+#tab-rental .thumb .noimg{font:italic 900 26px "Roboto",sans-serif;color:#c9ccd2;text-align:center;line-height:1.1}
+#tab-rental .badge{position:absolute;top:9px;left:9px;background:var(--orange);color:var(--navy);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;padding:3px 7px;border-radius:3px}
+#tab-rental .qty-badge{position:absolute;top:9px;right:9px;background:var(--navy);color:#fff;font-weight:700;font-size:13px;padding:3px 9px;border-radius:999px;display:none}
+#tab-rental .card.active .qty-badge{display:block}
+#tab-rental .body{padding:10px 12px 12px;display:flex;flex-direction:column;gap:8px;flex:1}
+#tab-rental .name{font-size:20px;font-weight:400;color:var(--gold);line-height:1.2}
+#tab-rental .rate{display:flex;align-items:center;gap:5px;font-size:15px;color:var(--ink-2)}
+#tab-rental .rate input{width:78px;border:1px solid var(--line);background:var(--panel);border-radius:4px;padding:3px 6px;font-size:18px;color:var(--ink);text-align:left}
+#tab-rental .rate input.changed{border-color:var(--orange);background:var(--soft)}
+#tab-rental .stepper{display:grid;grid-template-columns:38px 1fr 38px;border:1px solid var(--line);border-radius:4px;overflow:hidden;margin-top:auto}
+#tab-rental .stepper button{border:0;background:var(--panel-2);cursor:pointer;font-size:19px;line-height:1}
+#tab-rental .stepper button:hover{background:var(--soft);color:var(--gold)}
+#tab-rental .stepper input{border:0;border-left:1px solid var(--line);border-right:1px solid var(--line);background:var(--panel);text-align:center;font-weight:700;font-size:16px;padding:7px 0;width:100%;-moz-appearance:textfield}
+#tab-rental .stepper input::-webkit-outer-spin-button,#tab-rental .stepper input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+#tab-rental .pack{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:13px;color:var(--ink-2);background:var(--panel-2);border:1px dashed var(--line);border-radius:4px;padding:6px 8px}
+#tab-rental .pack .pk-btn{border:1px solid var(--navy);background:var(--navy);color:#fff;border-radius:4px;padding:3px 9px;font-size:13px;font-weight:500;cursor:pointer}
+#tab-rental .pack .pk-btn:hover{background:var(--navy-2)}
+#tab-rental .pack .pk-btn.minus{background:transparent;color:var(--ink)}
+#tab-rental .pack .pk-info{flex-basis:100%;color:var(--ink-2)}
+#tab-rental .pack .pk-info b{color:var(--gold);font-weight:700}
+#tab-rental .cont{font-size:13px;color:var(--ink-2);display:flex;justify-content:space-between;gap:6px;flex-wrap:wrap}
+#tab-rental .cont b{color:var(--gold)}
+#tab-rental .cont button{border:0;background:none;color:var(--gold);text-decoration:underline;cursor:pointer;padding:0;font-size:13px}
+#tab-rental .packrow{display:grid;grid-template-columns:1fr 64px auto;gap:6px;align-items:center;margin-bottom:6px;font-size:14px}
+#tab-rental .packrow input{border:1px solid var(--line);background:var(--panel);border-radius:4px;padding:4px 6px;width:100%}
+#tab-rental .line-total{display:flex;justify-content:space-between;font-size:14px;color:var(--ink-2)}
+#tab-rental .line-total b{color:var(--ink);font-size:16px}
+#tab-rental aside{position:sticky;top:16px}
+#tab-rental .panel{background:var(--panel);border:1px solid var(--line);border-radius:4px;overflow:hidden}
+#tab-rental .panel h2{margin:0;padding:13px 16px;font-weight:500;font-size:19px;background:var(--navy);color:#fff;display:flex;justify-content:space-between;align-items:center}
+#tab-rental .panel h2 span{font-weight:400;font-size:14px;color:var(--orange)}
+#tab-rental .lines{max-height:330px;overflow:auto;padding:4px 16px}
+#tab-rental .lines .empty{color:var(--ink-2);padding:22px 0;text-align:center;font-size:15px}
+#tab-rental .ln{display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding:9px 0;border-bottom:1px solid var(--line)}
+#tab-rental .ln:last-child{border-bottom:0}
+#tab-rental .ln .n{font-weight:500}
+#tab-rental .ln .d{grid-column:1;color:var(--ink-2);font-size:13px}
+#tab-rental .ln .t{grid-row:1/3;grid-column:2;align-self:center;font-weight:700}
+#tab-rental .totals{padding:12px 16px;border-top:1px solid var(--line);background:var(--panel-2);display:grid;gap:6px}
+#tab-rental .row{display:flex;justify-content:space-between;align-items:center;font-size:15px}
+#tab-rental .row.muted{color:var(--ink-2)}
+#tab-rental .row.disc{color:var(--good)}
+#tab-rental .row.grand{font-size:28px;font-weight:700;line-height:1.1;margin-top:6px;padding-top:10px;border-top:2px solid var(--orange)}
+#tab-rental .row.grand small{font-size:13px;font-weight:400;color:var(--ink-2)}
+#tab-rental .actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:12px 16px 16px}
+#tab-rental .actions .btn{width:100%}
+#tab-rental details.settings{margin-top:14px}
+#tab-rental details.settings summary{cursor:pointer;font-weight:500;padding:12px 16px;list-style:none;display:flex;justify-content:space-between}
+#tab-rental details.settings summary::-webkit-details-marker{display:none}
+#tab-rental details.settings summary::after{content:"+";font-size:18px;color:var(--gold)}
+#tab-rental details.settings[open] summary::after{content:"–"}
+#tab-rental .settings-body{padding:0 16px 16px;display:grid;gap:14px;font-size:15px}
+#tab-rental .settings-body h3{margin:0 0 6px;font-size:12px;text-transform:uppercase;letter-spacing:.7px;color:var(--ink-2);font-weight:500}
+#tab-rental .tier{display:grid;grid-template-columns:auto 70px auto 60px auto 30px;gap:6px;align-items:center;margin-bottom:6px;font-size:14px}
+#tab-rental .tier input,#tab-rental .field input,#tab-rental .field select{border:1px solid var(--line);background:var(--panel);border-radius:4px;padding:5px 7px;width:100%}
+#tab-rental .tier .x{border:0;background:none;cursor:pointer;color:var(--ink-2);font-size:17px}
+#tab-rental .field{display:grid;grid-template-columns:1fr 120px;gap:8px;align-items:center}
+@media (max-width:980px){
+#tab-rental .layout{grid-template-columns:1fr}
+#tab-rental aside{position:static}
+#tab-rental .duration{grid-template-columns:1fr}
 }
 @media (max-width:520px){
-  .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-  .thumb{height:96px}
-  .thumb .codetxt{font-size:22px}
-  .name{font-size:16px}
-  .qrow{flex-direction:column}
-  .boxbtn{height:32px}
-  h1{font-size:23px}
+#tab-rental .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+#tab-rental .thumb{height:115px}
+#tab-rental .name{font-size:17px}
+#tab-rental .group{border-right:0;padding-right:0;flex-wrap:wrap}
+#tab-rental h1{font-size:23px}
 }
 @media print{
-  body{background:#fff;color:#000}
-  .topbar,.subbar,header .head-actions,.palletbar,.toolbar,main,.actions,.note{display:none!important}
-  .layout{display:block}
-  aside{position:static}
-  .lines{max-height:none}
-  .panel h2{background:none;color:#000;border-bottom:2px solid #000}
+#tab-rental header .head-actions,#tab-rental .duration .dur-controls,#tab-rental .duration .hint,#tab-rental .toolbar,#tab-rental main,#tab-rental details.settings,#tab-rental .actions{display:none!important}
+#tab-rental .layout{display:block}
+#tab-rental aside{position:static}
+#tab-rental .lines{max-height:none}
+#tab-rental .duration{border:0;padding:0}
+#tab-rental .panel h2{background:none;color:#000;border-bottom:2px solid #000}
+}
+/* ===== Pallet weight tab ===== */
+#tab-weight .wrap{max-width:1320px;margin:0 auto;padding:22px 16px 60px}
+#tab-weight header.page{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+#tab-weight h1{margin:0;font-weight:500;font-size:28px;line-height:1.2}
+#tab-weight .sub{color:var(--ink-2);font-size:14px;margin-top:2px}
+#tab-weight .btn{border:1px solid var(--line);background:var(--panel);border-radius:4px;padding:8px 14px;cursor:pointer;font-weight:500;font-size:15px;transition:background .15s,border-color .15s}
+#tab-weight .btn:hover{border-color:var(--ink-2)}
+#tab-weight .btn.primary{background:var(--orange);border-color:var(--orange);color:var(--navy);font-weight:700}
+#tab-weight .btn.primary:hover{filter:brightness(.96)}
+#tab-weight .btn.navy{background:var(--navy);border-color:var(--navy);color:#fff}
+#tab-weight .btn.navy:hover{background:var(--navy-2)}
+#tab-weight .btn.sm{padding:4px 10px;font-size:13px}
+#tab-weight .palletbar{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--orange);border-radius:4px;padding:14px 18px;display:flex;flex-wrap:wrap;gap:14px 26px;align-items:center;margin-bottom:20px}
+#tab-weight .pb-item{display:flex;flex-direction:column;gap:4px}
+#tab-weight .pb-label{font-size:12px;text-transform:uppercase;letter-spacing:.7px;color:var(--ink-2);font-weight:500}
+#tab-weight .mini-step{display:grid;grid-template-columns:32px 56px 32px;border:1px solid var(--line);border-radius:4px;overflow:hidden;height:36px}
+#tab-weight .mini-step button{border:0;background:var(--panel-2);cursor:pointer;font-size:17px}
+#tab-weight .mini-step button:hover{background:var(--soft)}
+#tab-weight .mini-step input{border:0;border-left:1px solid var(--line);border-right:1px solid var(--line);text-align:center;font-weight:700;background:var(--panel);width:100%;-moz-appearance:textfield}
+#tab-weight .unit-in{display:flex;align-items:center;gap:6px;color:var(--ink-2);font-size:14px}
+#tab-weight .unit-in input{width:72px;height:36px;border:1px solid var(--line);border-radius:4px;padding:4px 8px;background:var(--panel);font-weight:500}
+#tab-weight .seg{display:inline-flex;border:1px solid var(--line);border-radius:4px;overflow:hidden;height:36px}
+#tab-weight .seg button{border:0;background:var(--panel);padding:0 12px;cursor:pointer;font-size:14px;font-weight:500;color:var(--ink-2)}
+#tab-weight .seg button+button{border-left:1px solid var(--line)}
+#tab-weight .seg button.on{background:var(--soft);color:var(--ink);font-weight:700;box-shadow:inset 0 -2px 0 var(--orange)}
+#tab-weight .layout{display:grid;grid-template-columns:minmax(0,1fr) 390px;gap:22px;align-items:start}
+#tab-weight .toolbar{display:flex;gap:12px 14px;align-items:center;flex-wrap:wrap;margin-bottom:6px}
+#tab-weight .search{flex:1;min-width:180px;border:0;border-bottom:1px solid var(--line);background:transparent;padding:10px 4px;font-size:16px;outline:none}
+#tab-weight .search:focus{border-bottom-color:var(--orange)}
+#tab-weight .chips{display:flex;gap:6px;flex-wrap:wrap}
+#tab-weight .chip{border:1px solid var(--line);background:var(--panel);border-radius:4px;padding:6px 12px;font-weight:500;cursor:pointer;font-size:14px}
+#tab-weight .chip:hover{border-color:var(--orange)}
+#tab-weight .chip.on{background:var(--soft);border-color:var(--orange);font-weight:700}
+#tab-weight .toggle{display:flex;align-items:center;gap:7px;font-size:15px;color:var(--ink-2);cursor:pointer;user-select:none}
+#tab-weight .toggle input{accent-color:var(--orange);width:16px;height:16px}
+#tab-weight .section-title{font-size:18px;font-weight:500;color:var(--ink);margin:22px 2px 12px;display:flex;align-items:center;gap:12px}
+#tab-weight .section-title::after{content:"";flex:1;height:1px;background:var(--line)}
+#tab-weight .section-title .sub-note{font-size:13px;color:var(--ink-2);font-weight:400}
+#tab-weight .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:14px}
+#tab-weight .card{background:var(--panel);border:1px solid var(--line);border-radius:4px;overflow:hidden;display:flex;flex-direction:column;transition:border-color .15s,box-shadow .15s}
+#tab-weight .card:hover{box-shadow:0 4px 14px rgba(32,40,57,.08)}
+#tab-weight .card.active{border-color:var(--orange);box-shadow:0 0 0 1px var(--orange)}
+#tab-weight .thumb{position:relative;height:118px;background:var(--img-bg);display:flex;align-items:center;justify-content:center;padding:12px;overflow:hidden}
+#tab-weight .thumb img{display:block;width:100%;height:100%;object-fit:contain}
+#tab-weight .thumb.code{background:var(--navy)}
+#tab-weight .thumb .codetxt{font:italic 900 30px/1 "Roboto",sans-serif;color:var(--orange);letter-spacing:-.3px;text-align:center}
+#tab-weight .thumb .codesub{position:absolute;bottom:8px;left:0;right:0;text-align:center;font-size:12px;color:#c3c7cf;letter-spacing:.5px;text-transform:uppercase}
+#tab-weight .thumb.custom{background:var(--soft)}
+#tab-weight .thumb.custom .codetxt{color:var(--gold);font-size:22px;padding:0 8px}
+#tab-weight .qty-badge{position:absolute;top:8px;right:8px;background:var(--orange);color:var(--navy);font-weight:700;font-size:13px;padding:2px 9px;border-radius:999px;display:none}
+#tab-weight .card.active .qty-badge{display:block}
+#tab-weight .codetag{position:absolute;top:8px;left:8px;background:var(--navy);color:var(--orange);font-size:11px;font-weight:700;letter-spacing:.5px;padding:2px 7px;border-radius:3px}
+#tab-weight .body{padding:10px 12px 12px;display:flex;flex-direction:column;gap:7px;flex:1}
+#tab-weight .name{font-size:18px;font-weight:400;color:var(--gold);line-height:1.2}
+#tab-weight .spec{font-size:13px;color:var(--ink-2);line-height:1.35}
+#tab-weight .spec input{width:58px;border:1px solid var(--line);background:var(--panel);border-radius:4px;padding:1px 5px;font-size:14px;color:var(--ink)}
+#tab-weight .spec input.changed{border-color:var(--orange);background:var(--soft)}
+#tab-weight .qrow{display:flex;gap:6px;margin-top:auto}
+#tab-weight .stepper{flex:1;display:grid;grid-template-columns:34px 1fr 34px;border:1px solid var(--line);border-radius:4px;overflow:hidden}
+#tab-weight .stepper button{border:0;background:var(--panel-2);cursor:pointer;font-size:18px;line-height:1}
+#tab-weight .stepper button:hover{background:var(--soft);color:var(--gold)}
+#tab-weight .stepper input{border:0;border-left:1px solid var(--line);border-right:1px solid var(--line);background:var(--panel);text-align:center;font-weight:700;font-size:16px;padding:6px 0;width:100%;-moz-appearance:textfield}
+#tab-weight .boxbtn{border:1px solid var(--navy);background:var(--navy);color:#fff;border-radius:4px;padding:0 10px;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap}
+#tab-weight .boxbtn:hover{background:var(--navy-2)}
+#tab-weight .breakdown{font-size:13px;color:var(--ink-2);min-height:19px}
+#tab-weight .breakdown b{color:var(--gold)}
+#tab-weight .line-total{display:flex;justify-content:space-between;font-size:14px;color:var(--ink-2);border-top:1px solid var(--line);padding-top:7px}
+#tab-weight .line-total b{color:var(--ink);font-size:16px}
+#tab-weight .card-actions{display:flex;gap:6px}
+#tab-weight .card-actions button{border:0;background:none;color:var(--gold);text-decoration:underline;cursor:pointer;padding:0;font-size:13px}
+#tab-weight .card-actions button.del{color:var(--warn)}
+#tab-weight .price{font-size:17px;font-weight:700;color:var(--ink);line-height:1.1}
+#tab-weight .price span{font-size:13px;font-weight:400;color:var(--ink-2)}
+#tab-weight .spec .bx{display:block;margin-top:3px;opacity:.55}
+#tab-weight .spec .bx.on{opacity:1}
+#tab-weight .spec .bx b{color:var(--ink)}
+#tab-weight .packbar{border-left-color:var(--navy-2);margin-top:-8px}
+#tab-weight .row.value{font-size:15px;border-top:1px dashed var(--line);padding-top:8px;margin-top:4px}
+#tab-weight .row.value small{font-size:12px;color:var(--ink-2);font-weight:400}
+#tab-weight .row.value span:last-child{font-weight:700}
+#tab-weight .stat.wide{grid-column:span 2}
+#tab-weight .editor{background:var(--panel);border:1px solid var(--orange);border-radius:4px;padding:16px;margin-bottom:14px;display:grid;gap:12px}
+#tab-weight .editor h3{margin:0;font-weight:500;font-size:18px}
+#tab-weight .ed-top{display:grid;grid-template-columns:2fr 1fr 1.2fr;gap:10px}
+#tab-weight .ed-field{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--ink-2)}
+#tab-weight .ed-field input,#tab-weight .ed-row select,#tab-weight .ed-row input{border:1px solid var(--line);background:var(--panel);border-radius:4px;padding:7px 9px;font-size:15px;color:var(--ink);width:100%}
+#tab-weight .ed-rows{display:grid;gap:8px}
+#tab-weight .ed-row{display:grid;grid-template-columns:minmax(0,1fr) 84px 90px 34px;gap:8px;align-items:center}
+#tab-weight .ed-row .other{display:grid;grid-template-columns:1fr 84px;gap:8px}
+#tab-weight .ed-row .rm{border:0;background:none;color:var(--warn);font-size:20px;cursor:pointer}
+#tab-weight .ed-row .rw{font-size:14px;color:var(--ink-2);text-align:right}
+#tab-weight .ed-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:12px}
+#tab-weight .ed-total{font-size:15px;color:var(--ink-2)}
+#tab-weight .ed-total b{font-size:22px;color:var(--ink)}
+#tab-weight .ed-head{font-size:12px;text-transform:uppercase;letter-spacing:.7px;color:var(--ink-2);display:grid;grid-template-columns:minmax(0,1fr) 84px 90px 34px;gap:8px}
+#tab-weight aside{position:sticky;top:16px}
+#tab-weight .panel{background:var(--panel);border:1px solid var(--line);border-radius:4px;overflow:hidden}
+#tab-weight .panel h2{margin:0;padding:13px 16px;font-weight:500;font-size:19px;background:var(--navy);color:#fff;display:flex;justify-content:space-between;align-items:center}
+#tab-weight .panel h2 span{font-weight:400;font-size:14px;color:var(--orange)}
+#tab-weight .lines{max-height:360px;overflow:auto;padding:4px 16px}
+#tab-weight .lines .empty{color:var(--ink-2);padding:22px 0;text-align:center;font-size:15px}
+#tab-weight .ln{display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding:9px 0;border-bottom:1px solid var(--line)}
+#tab-weight .ln:last-child{border-bottom:0}
+#tab-weight .ln .n{font-weight:500}
+#tab-weight .ln .d{grid-column:1;color:var(--ink-2);font-size:13px}
+#tab-weight .ln .t{grid-row:1/3;grid-column:2;align-self:center;font-weight:700;white-space:nowrap}
+#tab-weight .totals{padding:12px 16px;border-top:1px solid var(--line);background:var(--panel-2);display:grid;gap:6px}
+#tab-weight .row{display:flex;justify-content:space-between;align-items:center;font-size:15px}
+#tab-weight .row.muted{color:var(--ink-2)}
+#tab-weight .row.grand{font-size:30px;font-weight:700;line-height:1.1;margin-top:6px;padding-top:10px;border-top:2px solid var(--orange)}
+#tab-weight .row.kg{font-size:17px;font-weight:500;color:var(--ink-2);justify-content:flex-end}
+#tab-weight .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border-top:1px solid var(--line)}
+#tab-weight .stat{background:var(--panel);padding:10px 12px}
+#tab-weight .stat .k{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--ink-2)}
+#tab-weight .stat .v{font-size:18px;font-weight:700}
+#tab-weight .stat .v small{font-size:12px;font-weight:400;color:var(--ink-2)}
+#tab-weight .warnbox{margin:0 16px 0;padding:8px 10px;border-radius:4px;background:var(--soft);font-size:13px;color:var(--ink)}
+#tab-weight .actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:12px 16px 16px}
+#tab-weight .actions .btn{width:100%}
+#tab-weight .note{font-size:12.5px;color:var(--ink-2);padding:10px 2px 0;line-height:1.45}
+@media (max-width:1000px){
+#tab-weight .layout{grid-template-columns:1fr}
+#tab-weight aside{position:static}
+}
+@media (max-width:640px){
+#tab-weight .ed-top{grid-template-columns:1fr 1fr}
+#tab-weight .ed-top .ed-field:first-child{grid-column:1/-1}
+#tab-weight .ed-row,#tab-weight .ed-head{grid-template-columns:minmax(0,1fr) 64px 34px}
+#tab-weight .ed-row .rw,#tab-weight .ed-head .rwh{display:none}
+}
+@media (max-width:520px){
+#tab-weight .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+#tab-weight .thumb{height:96px}
+#tab-weight .thumb .codetxt{font-size:22px}
+#tab-weight .name{font-size:16px}
+#tab-weight .qrow{flex-direction:column}
+#tab-weight .boxbtn{height:32px}
+#tab-weight h1{font-size:23px}
+}
+@media print{
+#tab-weight header .head-actions,#tab-weight .palletbar,#tab-weight .toolbar,#tab-weight main,#tab-weight .actions,#tab-weight .note{display:none!important}
+#tab-weight .layout{display:block}
+#tab-weight aside{position:static}
+#tab-weight .lines{max-height:none}
+#tab-weight .panel h2{background:none;color:#000;border-bottom:2px solid #000}
 }
 </style>
 </head>
 <body>
 <div class="topbar"><div class="topbar-in">
   <span class="wordmark">FAB-FORM</span>
-  <nav class="nav"><span>Pallet Weight Estimator</span><span class="dim">Shipping</span></nav>
+  <nav class="tabs" role="tablist">
+    <button class="tab-btn" role="tab" data-tab="rental">Rental Quote</button>
+    <button class="tab-btn" role="tab" data-tab="weight">Pallet Weight</button>
+  </nav>
   <div class="top-actions">
     <button class="circle" id="themeBtn" title="Toggle light/dark" aria-label="Toggle theme">◐</button>
   </div>
 </div></div>
-<div class="subbar"><div class="subbar-in">Weights from Contractor price list, July 2026 · <b id="today"></b></div></div>
+<div class="subbar"><div class="subbar-in"><span id="subNote"></span><b id="today"></b></div></div>
 
+<section class="tab-panel" id="tab-rental" role="tabpanel">
+<div class="wrap">
+
+  <header class="page">
+    <div>
+      <h1>Rental Quote</h1>
+      <div class="sub">Pick a period, enter quantities, and the total updates as you go.</div>
+    </div>
+    <div class="head-actions">
+      <button class="btn" id="r-resetQty">Clear quantities</button>
+    </div>
+  </header>
+
+  <!-- DURATION -->
+  <section class="duration">
+    <div class="dur-readout">
+      <div class="label">Rental period</div>
+      <div class="big" id="r-durBig">2 weeks</div>
+      <div class="small" id="r-durSmall">14 days</div>
+    </div>
+    <div class="dur-controls">
+      <div class="group">
+        <span class="group-label">Start</span>
+        <button class="chip" data-set="2">2 weeks</button>
+        <button class="chip" data-set="4">1 month</button>
+      </div>
+      <div class="group">
+        <span class="group-label">Extend</span>
+        <button class="chip add" data-add="2">+ 2 weeks</button>
+        <button class="chip add" data-add="4">+ 1 month</button>
+      </div>
+      <div class="group">
+        <button class="chip sub" data-add="-2">− 2 weeks</button>
+      </div>
+    </div>
+    <div class="hint" style="max-width:220px">1 month = 4 weeks. Monthly items bill in half-month (2-week) steps — change this in Settings.</div>
+  </section>
+
+  <div class="layout">
+    <main>
+      <div class="toolbar">
+        <input class="search" id="r-search" type="search" placeholder="Search products…">
+        <label class="toggle"><input type="checkbox" id="r-onlySelected"> Only show selected</label>
+      </div>
+      <div id="r-catalog"></div>
+    </main>
+
+    <aside>
+      <div class="panel">
+        <h2>Quote <span id="r-itemCount">0 items</span></h2>
+        <div class="lines" id="r-lines"></div>
+        <div class="totals">
+          <div class="row muted"><span>Subtotal</span><span id="r-subtotal">$0.00</span></div>
+          <div class="row disc" id="r-discRow" hidden><span id="r-discLabel">Quantity discount</span><span id="r-discount">−$0.00</span></div>
+          <div class="row muted" id="r-taxRow" hidden><span id="r-taxLabel">Tax</span><span id="r-tax">$0.00</span></div>
+          <div class="row grand"><span>Total <small id="r-grandFor">for 2 weeks</small></span><span id="r-grand">$0.00</span></div>
+        </div>
+        <div class="actions">
+          <button class="btn" id="r-copyBtn">Copy quote</button>
+          <button class="btn primary" id="r-printBtn">Print / PDF</button>
+        </div>
+      </div>
+
+      <details class="panel settings">
+        <summary>Pricing settings</summary>
+        <div class="settings-body">
+          <div>
+            <h3>Packs &amp; containers</h3>
+            <label class="toggle" style="margin-bottom:8px"><input type="checkbox" id="r-autoBox"> Auto-add containers (rounds up)</label>
+            <div id="r-packs"></div>
+            <div class="hint">You can still change any container count by hand on its card.</div>
+          </div>
+          <div>
+            <h3>Quantity discounts</h3>
+            <div id="r-tiers"></div>
+            <button class="btn" id="r-addTier" style="padding:5px 10px;font-size:13px">+ Add tier</button>
+            <div class="hint" style="margin-top:6px">Applied per product line, based on that product's quantity. Highest matching tier wins.</div>
+          </div>
+          <div>
+            <h3>Billing</h3>
+            <div class="field">
+              <label for="r-billing">Monthly items</label>
+              <select id="r-billing">
+                <option value="half">Half-month steps</option>
+                <option value="full">Round up to full months</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <h3>Tax</h3>
+            <div class="field"><label for="r-taxRate">Tax rate (%)</label><input id="r-taxRate" type="number" min="0" step="0.01" value="0"></div>
+            <div class="hint" style="margin-top:6px">e.g. 5 for GST only, 12 for GST + BC PST.</div>
+          </div>
+          <div>
+            <button class="btn" id="r-resetPrices">Reset prices to list</button>
+          </div>
+        </div>
+      </details>
+    </aside>
+  </div>
+</div>
+</section>
+
+<section class="tab-panel" id="tab-weight" role="tabpanel">
 <div class="wrap">
   <header class="page">
     <div>
@@ -215,19 +442,29 @@ aside{position:sticky;top:16px}
       <div class="sub">Add boxes or pieces of each product to get the shipping weight of the whole pallet.</div>
     </div>
     <div class="head-actions">
-      <button class="btn" id="clearBtn">Clear pallet</button>
+      <button class="btn" id="w-clearBtn">Clear pallet</button>
     </div>
   </header>
 
   <section class="palletbar">
     <div class="pb-item">
       <span class="pb-label">Pallets</span>
-      <div class="mini-step"><button data-pal="-1" aria-label="Fewer pallets">−</button><input id="palCount" type="number" min="0" inputmode="numeric"><button data-pal="1" aria-label="More pallets">+</button></div>
+      <div class="mini-step"><button data-pal="-1" aria-label="Fewer pallets">−</button><input id="w-palCount" type="number" min="0" inputmode="numeric"><button data-pal="1" aria-label="More pallets">+</button></div>
+    </div>
+    <div class="pb-item">
+      <span class="pb-label">Pallet size (L × W)</span>
+      <div class="seg" data-seg="palSize"><button data-v="small">Small 44 × 30</button><button data-v="big">Big 48 × 44</button></div>
+    </div>
+    <div class="pb-item">
+      <span class="pb-label">Height H</span>
+      <label class="unit-in"><input id="w-palH" type="number" min="0" step="1" placeholder="auto"> in</label>
     </div>
     <div class="pb-item">
       <span class="pb-label">Empty pallet</span>
-      <label class="unit-in"><input id="palWt" type="number" min="0" step="0.5"> lb each</label>
+      <label class="unit-in"><input id="w-palWt" type="number" min="0" step="0.5"> lb each</label>
     </div>
+  </section>
+  <section class="palletbar packbar">
     <div class="pb-item">
       <span class="pb-label">Zonts ship in</span>
       <div class="seg" data-seg="zontPack"><button data-v="box">Cardboard box</button><button data-v="tote">Zote tote</button></div>
@@ -236,51 +473,372 @@ aside{position:sticky;top:16px}
       <span class="pb-label">Zuckles ship in</span>
       <div class="seg" data-seg="zuPack"><button data-v="box">Cardboard box</button><button data-v="tote">Lo Zote tote</button></div>
     </div>
+    <div class="pb-item">
+      <span class="pb-label">Fast-Tube 100' rolls</span>
+      <div class="seg" data-seg="ftRoll"><button data-v="half">Half box (1)</button><button data-v="full">Full box (2)</button><button data-v="mixed">Full + half</button></div>
+    </div>
+    <div class="pb-item">
+      <span class="pb-label">Fast-Tube 10' pieces</span>
+      <div class="seg" data-seg="ftPiece"><button data-v="full">Full boxes only</button><button data-v="sample">Leftovers in sample box</button></div>
+    </div>
+    <div class="pb-item">
+      <span class="pb-label">Sample box holds</span>
+      <label class="unit-in"><input id="w-sampleCap" type="number" min="1" step="1"> pcs</label>
+    </div>
   </section>
 
   <div class="layout">
     <main>
       <div class="toolbar">
-        <input class="search" id="search" type="search" placeholder="Search code or product… (FF50, FT12, Zont)">
-        <label class="toggle"><input type="checkbox" id="onlySel"> Only on pallet</label>
+        <input class="search" id="w-search" type="search" placeholder="Search code or product… (FF50, FT12, Zont)">
+        <label class="toggle"><input type="checkbox" id="w-onlySel"> Only on pallet</label>
       </div>
-      <div class="chips" id="chips"></div>
+      <div class="chips" id="w-chips"></div>
 
-      <div class="section-title" id="customTitle">Custom boxes <span class="sub-note">mix products in one box</span></div>
-      <div id="editorSlot"></div>
-      <div class="grid" id="customGrid"></div>
+      <div class="section-title" id="w-customTitle">Custom boxes <span class="sub-note">mix products in one box</span></div>
+      <div id="w-editorSlot"></div>
+      <div class="grid" id="w-customGrid"></div>
 
-      <div id="catalog"></div>
+      <div id="w-catalog"></div>
     </main>
 
     <aside>
       <div class="panel">
-        <h2>Pallet summary <span id="boxCount">0 boxes</span></h2>
-        <div class="lines" id="lines"></div>
+        <h2>Pallet summary <span id="w-boxCount">0 boxes</span></h2>
+        <div class="lines" id="w-lines"></div>
         <div class="totals">
-          <div class="row muted"><span>Products &amp; packaging</span><span id="prodWt">0 lb</span></div>
-          <div class="row muted"><span id="palLabel">Pallet (1 × 45 lb)</span><span id="palTotal">45 lb</span></div>
-          <div class="row grand"><span>Total</span><span id="grand">0 lb</span></div>
-          <div class="row kg"><span id="grandKg">0 kg</span></div>
+          <div class="row muted"><span>Products &amp; packaging</span><span id="w-prodWt">0 lb</span></div>
+          <div class="row muted"><span id="w-palLabel">Pallet (1 × 45 lb)</span><span id="w-palTotal">45 lb</span></div>
+          <div class="row grand"><span>Total</span><span id="w-grand">0 lb</span></div>
+          <div class="row kg"><span id="w-grandKg">0 kg</span></div>
+          <div class="row value"><span>Product value <small>contractor price</small></span><span id="w-value">$0.00</span></div>
         </div>
         <div class="stats">
-          <div class="stat"><div class="k">Boxes</div><div class="v" id="stBoxes">0</div></div>
-          <div class="stat"><div class="k">Box volume</div><div class="v" id="stVol">0 <small>ft³</small></div></div>
-          <div class="stat"><div class="k">Per pallet</div><div class="v" id="stPer">0 <small>lb</small></div></div>
+          <div class="stat"><div class="k">Boxes</div><div class="v" id="w-stBoxes">0</div></div>
+          <div class="stat"><div class="k">Box volume</div><div class="v" id="w-stVol">0 <small>ft³</small></div></div>
+          <div class="stat"><div class="k">Per pallet</div><div class="v" id="w-stPer">0 <small>lb</small></div></div>
+          <div class="stat wide"><div class="k">Pallet L × W × H</div><div class="v" id="w-stDims">—</div></div>
+          <div class="stat"><div class="k">Density</div><div class="v" id="w-stDens">—</div></div>
+          <div class="stat" hidden><div class="k">Pallet volume</div><div class="v" id="w-stPalVol">—</div></div>
         </div>
-        <div class="warnbox" id="warn" hidden></div>
+        <div class="warnbox" id="w-warn" hidden></div>
         <div class="actions">
-          <button class="btn" id="copyBtn">Copy summary</button>
-          <button class="btn primary" id="printBtn">Print / PDF</button>
+          <button class="btn" id="w-copyBtn">Copy summary</button>
+          <button class="btn primary" id="w-printBtn">Print / PDF</button>
         </div>
       </div>
-      <div class="note">Weights are estimates from the price list. Partly-filled boxes count the product inside plus the empty box. Box volume is the cartons only, not stacked pallet height. Items with no box listed (ZAT, drill adapters) ship loose and add weight but no volume.</div>
+      <div class="note">Weights, box sizes and prices are from the Contractor price list (July 2026); prices exclude shipping and tax, FOB Delta. Partly-filled boxes count the product inside plus the empty box. Fast-Tube half boxes (H × 21 × 6) and sample boxes (H × 10 × 6) take H from that size's 10' box; their empty weight is estimated from the cardboard area. Leave pallet height blank to estimate it: the pallet deck (5") plus the box volume spread over the footprint at 85% fill. Items with no box listed (ZAT, drill adapters) ship loose and add weight but no volume.</div>
     </aside>
   </div>
 </div>
+</section>
+
 <div class="toast" id="toast"></div>
 
 <script>
+/* ---------- shared shell: tabs, theme, date ---------- */
+(function(){
+  const THEME_KEY = "ff-theme", TAB_KEY = "ff-tab";
+  const NOTES = { rental:"Quote date: ", weight:"Weights, sizes &amp; prices from Contractor price list, July 2026 · " };
+  let theme = null;
+  try {
+    theme = localStorage.getItem(THEME_KEY);
+    if (!theme) for (const k of ["ff-pallet-weight-v1","ff-rental-calc-v1"]) { const s = JSON.parse(localStorage.getItem(k)||"null"); if (s && s.theme) { theme = s.theme; break; } }
+  } catch(e){}
+  const applyTheme = () => { if (theme) document.documentElement.dataset.theme = theme; else delete document.documentElement.dataset.theme; };
+  document.getElementById("themeBtn").onclick = () => {
+    const dark = theme ? theme==="dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+    theme = dark ? "light" : "dark"; applyTheme(); try { localStorage.setItem(THEME_KEY, theme); } catch(e){}
+  };
+  applyTheme();
+  document.getElementById("today").textContent = new Date().toLocaleDateString("en-CA",{year:"numeric",month:"short",day:"numeric"});
+  function show(tab){
+    if (!NOTES[tab]) tab = "rental";
+    document.querySelectorAll(".tab-panel").forEach(p => p.hidden = p.id !== "tab-"+tab);
+    document.querySelectorAll(".tab-btn").forEach(b => { b.classList.toggle("on", b.dataset.tab===tab); b.setAttribute("aria-selected", b.dataset.tab===tab); });
+    document.getElementById("subNote").innerHTML = NOTES[tab];
+    document.title = tab==="weight" ? "Fab-Form Pallet Weight" : "Fab-Form Rental Calculator";
+    try { localStorage.setItem(TAB_KEY, tab); } catch(e){}
+    try { if (location.hash !== "#"+tab) history.replaceState(null, "", "#"+tab); } catch(e){}  // sandboxed previews block this
+  }
+  document.querySelectorAll(".tab-btn").forEach(b => b.onclick = () => show(b.dataset.tab));
+  window.addEventListener("hashchange", () => show(location.hash.slice(1)));
+  let start = ""; try { start = location.hash.slice(1); } catch(e){}
+  if (!NOTES[start]) { try { start = localStorage.getItem(TAB_KEY) || "rental"; } catch(e){ start = "rental"; } }
+  show(start);
+})();
+</script>
+<script>
+/* ======================= RENTAL QUOTE ======================= */
+(function(){
+const ROOT = document.getElementById("tab-rental");
+/* ---------- PRODUCT DATA (edit prices here) ----------
+   unit: "month" or "week" — the period the list price is for.
+   hot:  true = shown in the "Most rented" section, in this order. */
+const PRODUCTS = [
+  { id:"zont",     name:"Zont",      price:3.11,  unit:"month", img:"images/zont.png",    hot:true },
+  { id:"zote",     name:"Zote",      price:4.73,  unit:"month", img:"images/zote.png",    hot:true },
+  { id:"zuckle",   name:"Zuckle",    price:4.36,  unit:"month", img:"images/zuckle.png",  hot:true },
+  { id:"lozote",   name:"Lo Zote",   price:4.36,  unit:"month", img:"images/lo-zote.png", hot:true },
+  { id:"zat",      name:"ZAT",       price:5.23,  unit:"month", img:"images/zat.png",     hot:true },
+  { id:"zee",      name:"ZEE",       price:2.74,  unit:"month", img:"images/zee.png",     hot:true },
+  { id:"zeveler",  name:"Zeveler",   price:3.11,  unit:"month", img:"images/zeveler.png", hot:true },
+  { id:"redtote",  name:"Red Tote",  price:4.80,  unit:"month", img:"images/tote.png",    hot:true },
+  { id:"mphd",     name:"MPHD",      price:13.42, unit:"month", img:"images/mphd.png",    hot:true },
+  { id:"levelr",   name:"Level-R",   price:13.42, unit:"month", img:"images/level-r.png", hot:true },
+  { id:"midzote",  name:"MID Zote",  price:4.73,  unit:"month", img:"",                   hot:true },
+  { id:"onejig",   name:"ONEJIG",    price:37.37, unit:"month", img:"" },
+  { id:"chainsaw", name:"Chainsaw Kit", price:62.29, unit:"week", img:"" },
+  { id:"hotwire",  name:"Hot Wire Gun Kit", price:66.15, unit:"week", img:"" },
+];
+/* PACKS: how many pieces go in one container. Edit sizes here or in Pricing settings. */
+const DEFAULT_PACKS = {
+  zont:    { size:20, box:"zote" },
+  zuckle:  { size:10, box:"lozote" },
+  zeveler: { size:18, box:"lozote" },
+  zee:     { size:14, box:"redtote" },
+  levelr:  { size:4,  box:"midzote" },
+  mphd:    { size:3,  box:"midzote" },
+};
+const DEFAULT_TIERS = [ {min:50, pct:5}, {min:100, pct:10} ];
+const STORE_KEY = "ff-rental-calc-v1";
+
+/* ---------- STATE ---------- */
+let state = { weeks:2, qty:{}, adj:{}, price:{}, packs:{}, autoBox:true, tiers:DEFAULT_TIERS.map(t=>({...t})), billing:"half", tax:0, onlySel:false, theme:null };
+try { const s = JSON.parse(localStorage.getItem(STORE_KEY)||"null"); if (s) state = {...state, ...s}; } catch(e){}
+if (!state.adj) state.adj = {};
+if (!state.packs) state.packs = {};
+const save = () => { try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch(e){} };
+
+const $ = s => document.querySelector(s);
+const money = n => n.toLocaleString("en-CA",{style:"currency",currency:"CAD"});
+const priceOf = p => state.price[p.id] ?? p.price;
+const packOf = id => DEFAULT_PACKS[id] ? { ...DEFAULT_PACKS[id], size: state.packs[id] || DEFAULT_PACKS[id].size } : null;
+const isContainer = id => Object.values(DEFAULT_PACKS).some(pk => pk.box === id);
+const nameOf = id => (PRODUCTS.find(p=>p.id===id)||{}).name || id;
+// containers needed by packed items (each item type rounds up on its own)
+function autoFor(boxId){
+  if (!state.autoBox) return 0;
+  let n = 0;
+  Object.keys(DEFAULT_PACKS).forEach(id => { const pk = packOf(id); if (pk.box===boxId) n += Math.ceil((state.qty[id]||0) / pk.size); });
+  return n;
+}
+function qtyOf(p){
+  if (isContainer(p.id)) return Math.max(0, autoFor(p.id) + (state.adj[p.id]||0));
+  return state.qty[p.id] || 0;
+}
+// migrate any container qty saved by the older version into a manual adjustment
+Object.keys(state.qty).forEach(id => { if (isContainer(id)) { state.adj[id] = (state.adj[id]||0) + state.qty[id]; delete state.qty[id]; } });
+
+/* ---------- PRICING ---------- */
+function periodsFor(p){
+  const w = state.weeks;
+  if (p.unit === "week") return { n:w, label: w===1?"week":"weeks" };
+  if (state.billing === "full") { const m = Math.ceil(w/4); return { n:m, label: m===1?"month":"months" }; }
+  const m = Math.ceil(w/2)/2; // half-month steps
+  return { n:m, label: m===1?"month":"months" };
+}
+function tierFor(q){
+  let best = null;
+  state.tiers.forEach(t => { if (t.min>0 && q>=t.min && (!best || t.min>best.min)) best = t; });
+  return best;
+}
+function lineFor(p){
+  const q = qtyOf(p), unit = priceOf(p), per = periodsFor(p);
+  const gross = q * unit * per.n;
+  const t = tierFor(q);
+  const disc = t ? gross * t.pct/100 : 0;
+  return { q, unit, per, gross, disc, net: gross-disc, tier:t };
+}
+function durText(w){
+  const m = Math.floor(w/4), r = w%4;
+  const parts = [];
+  if (m) parts.push(m + (m===1?" month":" months"));
+  if (r) parts.push(r + " weeks");
+  return parts.join(" + ") || "0 weeks";
+}
+
+/* ---------- RENDER CATALOG ---------- */
+function cardHTML(p){
+  const img = p.img
+    ? `<img src="${p.img}" alt="${p.name}" loading="lazy">`
+    : `<div class="noimg">${p.name.toUpperCase()}</div>`;
+  return `<div class="card" data-id="${p.id}">
+    <div class="thumb">${p.hot?'<span class="badge">Hot</span>':''}<span class="qty-badge"></span>${img}</div>
+    <div class="body">
+      <div class="name">${p.name}</div>
+      <div class="rate">$<input type="number" step="0.01" min="0" class="price-in" value="${priceOf(p).toFixed(2)}" aria-label="${p.name} price"> / ${p.unit}</div>
+      <div class="stepper">
+        <button class="dec" aria-label="Decrease">−</button>
+        <input type="number" min="0" inputmode="numeric" class="qty-in" value="${qtyOf(p)||""}" placeholder="0" aria-label="${p.name} quantity">
+        <button class="inc" aria-label="Increase">+</button>
+      </div>
+      ${packOf(p.id) ? `<div class="pack">
+        <button class="pk-btn minus pk-dec" aria-label="Remove one box">−</button>
+        <button class="pk-btn pk-inc">+ Box</button>
+        <span class="pk-size"></span>
+        <span class="pk-info"></span>
+      </div>` : ""}
+      ${isContainer(p.id) ? `<div class="cont"><span class="ct-info"></span><button class="ct-reset" hidden>Reset</button></div>` : ""}
+      <div class="line-total"><span class="lt-label">—</span><b class="lt-val"></b></div>
+    </div>
+  </div>`;
+}
+function renderCatalog(){
+  const hot = PRODUCTS.filter(p=>p.hot), rest = PRODUCTS.filter(p=>!p.hot);
+  $("#r-catalog").innerHTML =
+    `<div class="section-title" data-sec="hot">Most rented</div><div class="grid">${hot.map(cardHTML).join("")}</div>
+     <div class="section-title" data-sec="rest">Other equipment</div><div class="grid">${rest.map(cardHTML).join("")}</div>`;
+  ROOT.querySelectorAll(".card").forEach(card=>{
+    const p = PRODUCTS.find(x=>x.id===card.dataset.id);
+    const qIn = card.querySelector(".qty-in"), pIn = card.querySelector(".price-in");
+    const setQ = v => {
+      v = Math.max(0, Math.floor(+v||0));
+      if (isContainer(p.id)) state.adj[p.id] = v - autoFor(p.id); else state.qty[p.id] = v;
+      update();
+    };
+    const pk = packOf(p.id);
+    if (pk) {
+      card.querySelector(".pk-inc").onclick = () => setQ(qtyOf(p) + pk.size);
+      card.querySelector(".pk-dec").onclick = () => setQ(qtyOf(p) - pk.size);
+    }
+    const rs = card.querySelector(".ct-reset");
+    if (rs) rs.onclick = () => { delete state.adj[p.id]; update(); };
+    card.querySelector(".inc").onclick = e => setQ(qtyOf(p) + (e.shiftKey?10:1));
+    card.querySelector(".dec").onclick = e => setQ(qtyOf(p) - (e.shiftKey?10:1));
+    qIn.oninput = () => setQ(qIn.value);
+    qIn.onfocus = () => qIn.select();
+    pIn.oninput = () => {
+      const v = parseFloat(pIn.value);
+      if (isNaN(v) || Math.abs(v-p.price)<0.0001) delete state.price[p.id]; else state.price[p.id]=v;
+      update();
+    };
+    pIn.onblur = () => { pIn.value = priceOf(p).toFixed(2); };
+  });
+}
+
+/* ---------- UPDATE ---------- */
+function update(){
+  // duration
+  $("#r-durBig").textContent = durText(state.weeks);
+  $("#r-durSmall").textContent = `${state.weeks*7} days · ${state.weeks} weeks`;
+  $("#r-grandFor").textContent = "for " + durText(state.weeks);
+  ROOT.querySelectorAll("[data-set]").forEach(b=>b.classList.toggle("on", +b.dataset.set===state.weeks));
+
+  // cards
+  const term = $("#r-search").value.trim().toLowerCase();
+  ROOT.querySelectorAll(".card").forEach(card=>{
+    const p = PRODUCTS.find(x=>x.id===card.dataset.id), L = lineFor(p);
+    card.classList.toggle("active", L.q>0);
+    const qIn = card.querySelector(".qty-in");
+    if (document.activeElement !== qIn) qIn.value = L.q || "";
+    const pk = packOf(p.id);
+    if (pk) {
+      const boxes = Math.floor(L.q/pk.size), loose = L.q % pk.size, need = Math.ceil(L.q/pk.size);
+      card.querySelector(".pk-size").textContent = `${pk.size} pcs + 1 ${nameOf(pk.box)}`;
+      card.querySelector(".pk-info").innerHTML = L.q
+        ? `${boxes} box${boxes===1?"":"es"}${loose?` + ${loose} loose`:""} → <b>${need} ${nameOf(pk.box)}</b>`
+        : `1 box = ${pk.size} ${p.name} in a ${nameOf(pk.box)}`;
+    }
+    if (isContainer(p.id)) {
+      const a = autoFor(p.id), x = state.adj[p.id]||0;
+      card.querySelector(".ct-info").innerHTML = state.autoBox
+        ? `<span><b>${a}</b> from packs${x?` ${x>0?"+":"−"} ${Math.abs(x)} manual`:""}</span>`
+        : (x ? `<span>${x} manual</span>` : "<span>Auto containers off</span>");
+      card.querySelector(".ct-reset").hidden = !x;
+    }
+    card.querySelector(".qty-badge").textContent = "×"+L.q;
+    card.querySelector(".price-in").classList.toggle("changed", p.id in state.price);
+    card.querySelector(".lt-label").textContent = L.q ? `${L.per.n} ${L.per.label}${L.tier?` · −${L.tier.pct}%`:""}` : `${money(L.unit*L.per.n)} each`;
+    card.querySelector(".lt-val").textContent = L.q ? money(L.net) : "";
+    const show = (!term || p.name.toLowerCase().includes(term)) && (!state.onlySel || L.q>0);
+    card.style.display = show ? "" : "none";
+  });
+  ROOT.querySelectorAll(".section-title").forEach(t=>{
+    const grid = t.nextElementSibling;
+    const any = [...grid.children].some(c=>c.style.display!=="none");
+    t.style.display = grid.style.display = any ? "" : "none";
+  });
+
+  // summary
+  let sub=0, disc=0, items=0;
+  const rows = [];
+  PRODUCTS.forEach(p=>{
+    const L = lineFor(p); if (!L.q) return;
+    sub+=L.gross; disc+=L.disc; items+=L.q;
+    rows.push(`<div class="ln"><span class="n">${p.name} × ${L.q}</span><span class="t">${money(L.net)}</span>
+      <span class="d">${money(L.unit)}/${p.unit} × ${L.per.n} ${L.per.label}${L.tier?` · ${L.tier.pct}% off`:""}${packNote(p,L.q)}</span></div>`);
+  });
+  $("#r-lines").innerHTML = rows.join("") || `<div class="empty">Add quantities to build a quote.</div>`;
+  $("#r-itemCount").textContent = `${items} item${items===1?"":"s"}`;
+  const taxable = sub - disc, tax = taxable * (state.tax||0)/100;
+  $("#r-subtotal").textContent = money(sub);
+  $("#r-discRow").hidden = !disc; $("#r-discount").textContent = "−"+money(disc);
+  $("#r-taxRow").hidden = !state.tax; $("#r-taxLabel").textContent = `Tax (${state.tax}%)`; $("#r-tax").textContent = money(tax);
+  $("#r-grand").textContent = money(taxable + tax);
+  save();
+}
+
+function packNote(p,q){
+  const pk = packOf(p.id);
+  if (pk) { const b=Math.floor(q/pk.size), l=q%pk.size; return ` · ${b} box${b===1?"":"es"}${l?` + ${l} loose`:""}`; }
+  if (isContainer(p.id)) { const a=autoFor(p.id), x=state.adj[p.id]||0; return state.autoBox ? ` · ${a} for packs${x?`, ${x>0?"+":"−"}${Math.abs(x)} manual`:""}` : ""; }
+  return "";
+}
+
+/* ---------- SETTINGS ---------- */
+function renderPacks(){
+  $("#r-packs").innerHTML = Object.keys(DEFAULT_PACKS).map(id => { const pk = packOf(id); return `<div class="packrow">
+    <span>${nameOf(id)} per ${nameOf(pk.box)}</span><input type="number" min="1" data-pk="${id}" value="${pk.size}"><span class="hint">pcs</span></div>`; }).join("");
+  $("#r-packs").querySelectorAll("input").forEach(inp => inp.oninput = () => {
+    const v = parseInt(inp.value,10);
+    if (v>0 && v!==DEFAULT_PACKS[inp.dataset.pk].size) state.packs[inp.dataset.pk]=v; else delete state.packs[inp.dataset.pk];
+    update();
+  });
+}
+function renderTiers(){
+  $("#r-tiers").innerHTML = state.tiers.map((t,i)=>`<div class="tier">
+    <span>Qty ≥</span><input type="number" min="1" data-i="${i}" data-k="min" value="${t.min}">
+    <span>get</span><input type="number" min="0" max="100" step="0.5" data-i="${i}" data-k="pct" value="${t.pct}">
+    <span>% off</span><button class="x" data-del="${i}" title="Remove">×</button></div>`).join("") || `<div class="hint">No discount tiers.</div>`;
+  $("#r-tiers").querySelectorAll("input").forEach(inp=> inp.oninput = () => { state.tiers[+inp.dataset.i][inp.dataset.k] = parseFloat(inp.value)||0; update(); });
+  $("#r-tiers").querySelectorAll("[data-del]").forEach(b=> b.onclick = () => { state.tiers.splice(+b.dataset.del,1); renderTiers(); update(); });
+}
+
+/* ---------- WIRING ---------- */
+ROOT.querySelectorAll("[data-set]").forEach(b=> b.onclick = () => { state.weeks = +b.dataset.set; update(); });
+ROOT.querySelectorAll("[data-add]").forEach(b=> b.onclick = () => { state.weeks = Math.max(2, state.weeks + +b.dataset.add); update(); });
+$("#r-search").oninput = update;
+$("#r-onlySelected").checked = state.onlySel;
+$("#r-onlySelected").onchange = e => { state.onlySel = e.target.checked; update(); };
+$("#r-autoBox").checked = state.autoBox;
+$("#r-autoBox").onchange = e => { state.autoBox = e.target.checked; update(); };
+$("#r-billing").value = state.billing;
+$("#r-billing").onchange = e => { state.billing = e.target.value; update(); };
+$("#r-taxRate").value = state.tax;
+$("#r-taxRate").oninput = e => { state.tax = parseFloat(e.target.value)||0; update(); };
+$("#r-addTier").onclick = () => { const last = state.tiers[state.tiers.length-1]; state.tiers.push({min: last? last.min*2 : 25, pct: last? last.pct+5 : 5}); renderTiers(); update(); };
+$("#r-resetPrices").onclick = () => { state.price = {}; renderCatalog(); update(); toast("Prices reset to list"); };
+$("#r-resetQty").onclick = () => { state.qty = {}; state.adj = {}; renderCatalog(); update(); toast("Quantities cleared"); };
+$("#r-printBtn").onclick = () => window.print();
+$("#r-copyBtn").onclick = async () => {
+  const lines = [`Fab-Form Rental Quote — ${durText(state.weeks)} (${state.weeks*7} days)`, ""];
+  PRODUCTS.forEach(p=>{ const L=lineFor(p); if(L.q) lines.push(`${p.name} × ${L.q}${packNote(p,L.q).replace(" · "," (")+(packNote(p,L.q)?")":"")} @ ${money(L.unit)}/${p.unit} × ${L.per.n} ${L.per.label}${L.tier?` (−${L.tier.pct}%)`:""} = ${money(L.net)}`); });
+  lines.push("", `Subtotal: ${$("#r-subtotal").textContent}`);
+  if (!$("#r-discRow").hidden) lines.push(`Discount: ${$("#r-discount").textContent}`);
+  if (!$("#r-taxRow").hidden) lines.push(`${$("#r-taxLabel").textContent}: ${$("#r-tax").textContent}`);
+  lines.push(`TOTAL: ${$("#r-grand").textContent}`);
+  try { await navigator.clipboard.writeText(lines.join("\n")); toast("Quote copied"); } catch(e){ toast("Couldn't copy — try Print instead"); }
+};
+let tt; function toast(m){ const t=$("#toast"); t.textContent=m; t.classList.add("show"); clearTimeout(tt); tt=setTimeout(()=>t.classList.remove("show"),1600); }
+
+renderCatalog(); renderTiers(); renderPacks(); update();
+})();
+</script>
+<script>
+/* ======================= PALLET WEIGHT ======================= */
+(function(){
+const ROOT = document.getElementById("tab-weight");
 /* ---------- PRODUCT DATA — Contractor price list, July 2026 ----------
    wt    = weight of one unit (lb)
    per   = units in one full box
@@ -288,53 +846,62 @@ aside{position:sticky;top:16px}
    dims  = box size L×W×H (inches) */
 const PRODUCTS = [
   // Fastfoot
-  { id:"ff50",       code:"FF50",        name:'50" Narrow, 100\' roll',        group:"Fastfoot", unit:"roll", wt:11.2, per:4,  dims:"10x10x27", boxWt:46.3 },
-  { id:"ff50c",      code:"FF50C",       name:'50" Narrow sewn corner',         group:"Fastfoot", unit:"each", wt:0.8,  per:20, dims:"14x14x9",  boxWt:16.0 },
-  { id:"ff50c-mp",   code:"FF50C-MP",    name:'50" Narrow sewn MP corner',      group:"Fastfoot", unit:"each", wt:0.8,  per:20, dims:"14x14x9",  boxWt:16.0 },
-  { id:"ff50c-mp-t", code:"FF50C-MP-T",  name:'50" Narrow sewn T corner',       group:"Fastfoot", unit:"each", wt:0.9,  per:20, dims:"14x14x9",  boxWt:18.0 },
-  { id:"ff62",       code:"FF62",        name:'62" Standard, 100\' roll',       group:"Fastfoot", unit:"roll", wt:13.9, per:4,  dims:"10x10x33", boxWt:57.1 },
-  { id:"ff62c",      code:"FF62C",       name:'62" Standard sewn corner',       group:"Fastfoot", unit:"each", wt:0.9,  per:20, dims:"18x14x9",  boxWt:18.0 },
-  { id:"ff62c-mp",   code:"FF62C-MP",    name:'62" sewn MP corner',             group:"Fastfoot", unit:"each", wt:0.9,  per:20, dims:"18x14x9",  boxWt:18.0 },
-  { id:"ff62c-mp-t", code:"FF62C-MP-T",  name:'62" sewn T corner',              group:"Fastfoot", unit:"each", wt:1.0,  per:20, dims:"18x14x9",  boxWt:20.0 },
-  { id:"ff74",       code:"FF74",        name:'74" Wide, 100\' roll',           group:"Fastfoot", unit:"roll", wt:16.6, per:4,  dims:"10x10x39", boxWt:67.9 },
-  { id:"ff74c",      code:"FF74C",       name:'74" Wide sewn corner',           group:"Fastfoot", unit:"each", wt:1.2,  per:20, dims:"22x15x9",  boxWt:24.0 },
-  { id:"ff74c-mp",   code:"FF74C-MP",    name:'74" sewn MP corner',             group:"Fastfoot", unit:"each", wt:1.2,  per:20, dims:"22x15x9",  boxWt:24.0 },
-  { id:"ff74c-mp-t", code:"FF74C-MP-T",  name:'74" sewn T corner',              group:"Fastfoot", unit:"each", wt:1.3,  per:20, dims:"22x15x9",  boxWt:26.0 },
+  { id:"ff50",       code:"FF50",        name:'50" Narrow, 100\' roll',        group:"Fastfoot", unit:"roll", price:104.15, wt:11.2, per:4,  dims:"10x10x27", boxWt:46.3 },
+  { id:"ff50c",      code:"FF50C",       name:'50" Narrow sewn corner',         group:"Fastfoot", unit:"each", price:9.84,   wt:0.8,  per:20, dims:"14x14x9",  boxWt:16.0 },
+  { id:"ff50c-mp",   code:"FF50C-MP",    name:'50" Narrow sewn MP corner',      group:"Fastfoot", unit:"each", price:10.94,  wt:0.8,  per:20, dims:"14x14x9",  boxWt:16.0 },
+  { id:"ff50c-mp-t", code:"FF50C-MP-T",  name:'50" Narrow sewn T corner',       group:"Fastfoot", unit:"each", price:17.75,  wt:0.9,  per:20, dims:"14x14x9",  boxWt:18.0 },
+  { id:"ff62",       code:"FF62",        name:'62" Standard, 100\' roll',       group:"Fastfoot", unit:"roll", price:129.92, wt:13.9, per:4,  dims:"10x10x33", boxWt:57.1 },
+  { id:"ff62c",      code:"FF62C",       name:'62" Standard sewn corner',       group:"Fastfoot", unit:"each", price:10.77,  wt:0.9,  per:20, dims:"18x14x9",  boxWt:18.0 },
+  { id:"ff62c-mp",   code:"FF62C-MP",    name:'62" sewn MP corner',             group:"Fastfoot", unit:"each", price:11.30,  wt:0.9,  per:20, dims:"18x14x9",  boxWt:18.0 },
+  { id:"ff62c-mp-t", code:"FF62C-MP-T",  name:'62" sewn T corner',              group:"Fastfoot", unit:"each", price:18.95,  wt:1.0,  per:20, dims:"18x14x9",  boxWt:20.0 },
+  { id:"ff74",       code:"FF74",        name:'74" Wide, 100\' roll',           group:"Fastfoot", unit:"roll", price:154.68, wt:16.6, per:4,  dims:"10x10x39", boxWt:67.9 },
+  { id:"ff74c",      code:"FF74C",       name:'74" Wide sewn corner',           group:"Fastfoot", unit:"each", price:13.11,  wt:1.2,  per:20, dims:"22x15x9",  boxWt:24.0 },
+  { id:"ff74c-mp",   code:"FF74C-MP",    name:'74" sewn MP corner',             group:"Fastfoot", unit:"each", price:13.76,  wt:1.2,  per:20, dims:"22x15x9",  boxWt:24.0 },
+  { id:"ff74c-mp-t", code:"FF74C-MP-T",  name:'74" sewn T corner',              group:"Fastfoot", unit:"each", price:20.64,  wt:1.3,  per:20, dims:"22x15x9",  boxWt:26.0 },
+  { id:"levelr",     code:"Level-R",     name:'Level-R footing supports (0"–11")', group:"Fastfoot", unit:"pair", price:107.16, wt:10.0, per:4, dims:"21x12x8", boxWt:49.0, img:"images/level-r.png" },
   // Zont bracing
-  { id:"z",       code:"Z",        name:"Zont",                         group:"Zont Bracing", unit:"each", wt:1.9,  per:20, dims:"20x12x10",   boxWt:39.9, img:"images/zont.png" },
-  { id:"zote",    code:"ZOTE",     name:"Zote tote (empty)",            group:"Zont Bracing", unit:"each", wt:10.9, per:0,  dims:"21.5x13x11", img:"images/zote.png", tote:true },
-  { id:"zu",      code:"ZU",       name:"Zuckle wall aligner",          group:"Zont Bracing", unit:"each", wt:3.6,  per:10, dims:"20x9x6",     boxWt:37.5, img:"images/zuckle.png" },
-  { id:"lozote",  code:"LO ZOTE",  name:"Lo Zote tote (empty)",         group:"Zont Bracing", unit:"each", wt:7.7,  per:0,  dims:"21.5x6.5x11",img:"images/lo-zote.png", tote:true },
-  { id:"zee",     code:"ZEE",      name:"ZEE T-bracket",                group:"Zont Bracing", unit:"each", wt:2.9,  per:14, dims:"18x18x4",    boxWt:42.6, img:"images/zee.png" },
-  { id:"zev",     code:"ZEV",      name:"Zeveler (pair)",               group:"Zont Bracing", unit:"pair", wt:1.9,  per:18, dims:"16x10x3",    boxWt:36.2, img:"images/zeveler.png" },
-  { id:"zat",     code:"ZAT",      name:"ZAT catwalk bracket",          group:"Zont Bracing", unit:"each", wt:7.4,  per:0,  img:"images/zat.png" },
-  { id:"drv716",  code:'7-16" DRV',name:"Drill adapter for Zuckle",     group:"Zont Bracing", unit:"each", wt:0.1,  per:0 },
+  { id:"z",       code:"Z",        name:"Zont",                         group:"Zont Bracing", unit:"each", price:17.69, wt:1.9,  per:20, dims:"20x12x10",   boxWt:39.9, img:"images/zont.png" },
+  { id:"zote",    code:"ZOTE",     name:"Zote tote (holds 20 Zonts)",   group:"Zont Bracing", unit:"each", price:51.71, wt:10.9, per:0,  dims:"21.5x13x11", img:"images/zote.png", tote:true },
+  { id:"zu",      code:"ZU",       name:"Zuckle wall aligner",          group:"Zont Bracing", unit:"each", price:26.90, wt:3.6,  per:10, dims:"20x9x6",     boxWt:37.5, img:"images/zuckle.png" },
+  { id:"lozote",  code:"LO ZOTE",  name:"Lo Zote tote (holds 10 Zuckles)", group:"Zont Bracing", unit:"each", price:41.19, wt:7.7, per:0, dims:"21.5x6.5x11",img:"images/lo-zote.png", tote:true },
+  { id:"zee",     code:"ZEE",      name:"ZEE T-bracket",                group:"Zont Bracing", unit:"each", price:16.75, wt:2.9,  per:14, dims:"18x18x4",    boxWt:42.6, img:"images/zee.png" },
+  { id:"zev",     code:"ZEV",      name:"Zeveler (pair)",               group:"Zont Bracing", unit:"pair", price:15.35, wt:1.9,  per:18, dims:"16x10x3",    boxWt:36.2, img:"images/zeveler.png" },
+  { id:"zat",     code:"ZAT",      name:"ZAT catwalk bracket",          group:"Zont Bracing", unit:"each", price:51.15, wt:7.4,  per:0,  img:"images/zat.png" },
+  { id:"drv716",  code:'7-16" DRV',name:"Drill adapter (Zuckle, Level-R, MPHD)", group:"Zont Bracing", unit:"each", price:6.08, wt:0.1, per:0 },
   // Monopour
-  { id:"mpss",    code:"MPSS",     name:'Sacrificed side supports (7"–13")', group:"Monopour", unit:"pair", wt:2.1, per:18, dims:"16x10x9", boxWt:39.9 },
-  { id:"drv6",    code:"6.0mm DRV",name:"Drill adapter for MPSS",       group:"Monopour", unit:"each", wt:0.1, per:0 },
-  // Fast-Tube
-  { id:"ft8r",  code:"FT8",  name:'8" column form, 100\' roll',   group:"Fast-Tube", unit:"roll", wt:11.2, per:2,  dims:"11x21x13", boxWt:23.7 },
-  { id:"ft8",   code:"FT8",  name:'8" column form, 10\'',         group:"Fast-Tube", unit:"each", wt:1.4,  per:20, dims:"11x21x13", boxWt:28.9 },
-  { id:"ft10r", code:"FT10", name:'10" column form, 100\' roll',  group:"Fast-Tube", unit:"roll", wt:13.3, per:2,  dims:"11x21x16", boxWt:28.2 },
-  { id:"ft10",  code:"FT10", name:'10" column form, 10\'',        group:"Fast-Tube", unit:"each", wt:1.7,  per:20, dims:"11x21x16", boxWt:34.4 },
-  { id:"ft12r", code:"FT12", name:'12" column form, 100\' roll',  group:"Fast-Tube", unit:"roll", wt:15.5, per:2,  dims:"11x21x20", boxWt:33.0 },
-  { id:"ft12",  code:"FT12", name:'12" column form, 10\'',        group:"Fast-Tube", unit:"each", wt:1.9,  per:20, dims:"11x21x20", boxWt:40.0 },
-  { id:"ft14r", code:"FT14", name:'14" column form, 100\' roll',  group:"Fast-Tube", unit:"roll", wt:18.0, per:2,  dims:"11x21x23", boxWt:38.0 },
-  { id:"ft14",  code:"FT14", name:'14" column form, 10\'',        group:"Fast-Tube", unit:"each", wt:2.2,  per:20, dims:"11x21x23", boxWt:46.0 },
-  { id:"ft16r", code:"FT16", name:'16" column form, 100\' roll',  group:"Fast-Tube", unit:"roll", wt:19.8, per:2,  dims:"11x21x26", boxWt:42.0 },
-  { id:"ft16",  code:"FT16", name:'16" column form, 10\'',        group:"Fast-Tube", unit:"each", wt:2.4,  per:20, dims:"11x21x26", boxWt:55.0 },
-  { id:"ft18r", code:"FT18", name:'18" column form, 100\' roll',  group:"Fast-Tube", unit:"roll", wt:24.5, per:2,  dims:"11x21x30", boxWt:49.0 },
-  { id:"ft18",  code:"FT18", name:'18" column form, 10\'',        group:"Fast-Tube", unit:"each", wt:2.9,  per:20, dims:"11x21x30", boxWt:58.0 },
+  { id:"mpss",    code:"MPSS",     name:'Sacrificed side supports (7"–13")', group:"Monopour", unit:"pair", price:20.07, wt:2.1, per:18, dims:"16x10x9", boxWt:39.9 },
+  { id:"drv6",    code:"6.0mm DRV",name:"Drill adapter for MPSS (6mm × 8\")", group:"Monopour", unit:"each", price:6.07, wt:0.1, per:0 },
+  { id:"mphd",    code:"MPHD",     name:'Re-useable side supports (0"–14")', group:"Monopour", unit:"pair", price:116.09, wt:15.0, per:3, dims:"21x12x8", boxWt:55.3, img:"images/mphd.png" },
+  { id:"midzote", code:"MID ZOTE", name:"Mid Zote tote (4 Level-R / 3 MPHD)", group:"Monopour", unit:"each", price:43.16, wt:10.3, per:0, dims:"21x12x8", tote:true },
+  // Fast-Tube — ft:"roll"/"piece" enables half box (rolls) and sample box (10' pieces); ftH = box height
+  { id:"ft8r",  code:"FT8",  name:'8" column form, 100\' roll',   group:"Fast-Tube", unit:"roll", price:178.85, wt:11.2, per:2,  dims:"11x21x13", boxWt:23.7, ft:"roll",  ftH:13 },
+  { id:"ft8",   code:"FT8",  name:'8" column form, 10\'',         group:"Fast-Tube", unit:"each", price:22.15,  wt:1.4,  per:20, dims:"11x21x13", boxWt:28.9, ft:"piece", ftH:13 },
+  { id:"ft10r", code:"FT10", name:'10" column form, 100\' roll',  group:"Fast-Tube", unit:"roll", price:189.05, wt:13.3, per:2,  dims:"11x21x16", boxWt:28.2, ft:"roll",  ftH:16 },
+  { id:"ft10",  code:"FT10", name:'10" column form, 10\'',        group:"Fast-Tube", unit:"each", price:24.91,  wt:1.7,  per:20, dims:"11x21x16", boxWt:34.4, ft:"piece", ftH:16 },
+  { id:"ft12r", code:"FT12", name:'12" column form, 100\' roll',  group:"Fast-Tube", unit:"roll", price:241.20, wt:15.5, per:2,  dims:"11x21x20", boxWt:33.0, ft:"roll",  ftH:20 },
+  { id:"ft12",  code:"FT12", name:'12" column form, 10\'',        group:"Fast-Tube", unit:"each", price:29.13,  wt:1.9,  per:20, dims:"11x21x20", boxWt:40.0, ft:"piece", ftH:20 },
+  { id:"ft14r", code:"FT14", name:'14" column form, 100\' roll',  group:"Fast-Tube", unit:"roll", price:298.48, wt:18.0, per:2,  dims:"11x21x23", boxWt:38.0, ft:"roll",  ftH:23 },
+  { id:"ft14",  code:"FT14", name:'14" column form, 10\'',        group:"Fast-Tube", unit:"each", price:39.40,  wt:2.2,  per:20, dims:"11x21x23", boxWt:46.0, ft:"piece", ftH:23 },
+  { id:"ft16r", code:"FT16", name:'16" column form, 100\' roll',  group:"Fast-Tube", unit:"roll", price:341.82, wt:19.8, per:2,  dims:"11x21x26", boxWt:42.0, ft:"roll",  ftH:26 },
+  { id:"ft16",  code:"FT16", name:'16" column form, 10\'',        group:"Fast-Tube", unit:"each", price:45.12,  wt:2.4,  per:20, dims:"11x21x26", boxWt:55.0, ft:"piece", ftH:26 },
+  { id:"ft18r", code:"FT18", name:'18" column form, 100\' roll',  group:"Fast-Tube", unit:"roll", price:385.56, wt:24.5, per:2,  dims:"11x21x30", boxWt:49.0, ft:"roll",  ftH:30 },
+  { id:"ft18",  code:"FT18", name:'18" column form, 10\'',        group:"Fast-Tube", unit:"each", price:50.89,  wt:2.9,  per:20, dims:"11x21x30", boxWt:58.0, ft:"piece", ftH:30 },
 ];
 const GROUPS = ["Fastfoot","Zont Bracing","Monopour","Fast-Tube"];
 // Tote option: Zonts in a Zote, Zuckles in a Lo Zote (tote replaces the cardboard box)
 const TOTES = { z:{ tote:"zote", per:20 }, zu:{ tote:"lozote", per:10 } };
+/* Pallet footprints (inches). Height H is entered, or estimated from the box volume. */
+const PALLETS = { small:{ L:44, W:30, label:"Small" }, big:{ L:48, W:44, label:"Big" } };
+const PALLET_DECK = 5;      // in — height of the empty pallet itself, added to the load height
+const PALLET_FILL = 0.85;   // how tightly boxes fill the footprint when estimating height
+const CARDBOARD = 0.001;    // lb per in² of box surface — used to estimate Fast-Tube half/sample box weights
 const STORE_KEY = "ff-pallet-weight-v1";
 const STARTER_CUSTOM = [{ id:"c1", name:"FF50 kit", carton:1.5, dims:"10x10x27", count:0,
   items:[ {pid:"ff50", qty:1}, {pid:"ff50c", qty:5} ] }];
 
 /* ---------- STATE ---------- */
-let state = { qty:{}, wt:{}, customs:STARTER_CUSTOM, pallets:1, palWt:45, zontPack:"box", zuPack:"box", group:"All", onlySel:false, theme:null };
+let state = { qty:{}, wt:{}, customs:STARTER_CUSTOM, pallets:1, palWt:45, palSize:"big", palH:null,
+  zontPack:"box", zuPack:"box", ftRoll:"half", ftPiece:"sample", sampleCap:5, group:"All", onlySel:false };
 try { const s = JSON.parse(localStorage.getItem(STORE_KEY)||"null"); if (s) state = {...state, ...s}; } catch(e){}
 const save = () => { try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch(e){} };
 
@@ -342,13 +909,23 @@ const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const fmt = (n,d=1) => (Math.round(n*10**d)/10**d).toLocaleString("en-US",{minimumFractionDigits:d,maximumFractionDigits:d});
 const lb = n => fmt(n) + " lb";
+const money = n => n.toLocaleString("en-CA",{style:"currency",currency:"CAD"});
 const P = id => PRODUCTS.find(p=>p.id===id);
 const wtOf = p => state.wt[p.id] ?? p.wt;
 const qtyOf = p => state.qty[p.id] || 0;
 const unitWord = (p,n) => p.unit==="roll" ? (n===1?"roll":"rolls") : p.unit==="pair" ? (n===1?"pair":"pairs") : (n===1?"pc":"pcs");
-const cuft = dims => { if(!dims) return 0; const d = String(dims).toLowerCase().split(/[x×*]/).map(Number); return d.length===3 && d.every(v=>v>0) ? d[0]*d[1]*d[2]/1728 : 0; };
+const dimsArr = dims => { if(!dims) return null; const d = String(dims).toLowerCase().split(/[x×*]/).map(Number); return d.length===3 && d.every(v=>v>0) ? d : null; };
+const cuft = dims => { const d = dimsArr(dims); return d ? d[0]*d[1]*d[2]/1728 : 0; };
+const dimTxt = dims => dims ? String(dims).replace(/x/gi," × ") + '"' : "";
+const areaWt = dims => { const d = dimsArr(dims); return d ? 2*(d[0]*d[1]+d[0]*d[2]+d[1]*d[2])*CARDBOARD : 0; };
+const plural = (label,n) => n===1 ? label : (/box$/.test(label) ? label+"es" : label+"s");
 
-/* how a product is packed right now */
+/* box types for a product */
+function fullBox(p){ return { label:"box", per:p.per, dims:p.dims, empty:Math.max(0, p.boxWt - p.per*p.wt) }; }
+function halfBox(p){ const dims = `${p.ftH}x21x6`; return { label:"half box", per:1, dims, empty:areaWt(dims) }; }      // 100' roll, 1 per box
+function sampleBox(p){ const dims = `${p.ftH}x10x6`; return { label:"sample box", per:Math.max(1,state.sampleCap||1), dims, empty:areaWt(dims) }; } // 10' pieces
+
+/* the box "+ Box" adds and the card's "full box" figure */
 function packOf(p){
   const t = TOTES[p.id];
   if (t && ((p.id==="z" && state.zontPack==="tote") || (p.id==="zu" && state.zuPack==="tote"))) {
@@ -356,16 +933,46 @@ function packOf(p){
     return { per:t.per, empty:wtOf(tp), dims:tp.dims, label:tp.code==="ZOTE"?"Zote":"Lo Zote" };
   }
   if (!p.per) return null;
-  return { per:p.per, empty:Math.max(0, p.boxWt - p.per*p.wt), dims:p.dims, label:"box" };
+  if (p.ft==="roll" && state.ftRoll==="half") return halfBox(p);
+  return fullBox(p);
+}
+/* how q units are actually boxed: list of {label, dims, empty, n, units} */
+function packagesFor(p, q){
+  const pk = packOf(p);
+  if (!q || !pk) return [];
+  const fill = (box, units) => units>0 ? [{ ...box, n:Math.ceil(units/box.per), units }] : [];
+  if (p.ft==="roll" && state.ftRoll==="mixed") {
+    const full = fullBox(p), nFull = Math.floor(q/full.per);
+    return [...fill(full, nFull*full.per), ...fill(halfBox(p), q - nFull*full.per)];
+  }
+  if (p.ft==="piece" && state.ftPiece==="sample") {
+    const full = fullBox(p), sb = sampleBox(p), nFull = Math.floor(q/full.per), rem = q - nFull*full.per;
+    if (rem && rem <= sb.per) return [...fill(full, nFull*full.per), ...fill(sb, rem)];
+  }
+  return fill(pk, q);
+}
+function describePkgs(p, pkgs){
+  return pkgs.map(k => {
+    const partial = k.units % k.per, full = partial ? k.n-1 : k.n, out = [];
+    if (k.label==="sample box") return `${k.n} sample box (${k.units} ${unitWord(p,k.units)})`;
+    if (full) out.push(`${full} ${k.per>1?"full ":""}${plural(k.label,full)}`);
+    if (partial) out.push(`1 partial ${k.label} (${partial} ${unitWord(p,partial)})`);
+    return out.join(" + ");
+  }).join(" + ");
 }
 function lineFor(p){
-  const q = qtyOf(p), w = wtOf(p), pk = packOf(p);
-  const boxes = pk ? Math.ceil(q/pk.per) : 0;
-  return { q, w, pk, boxes, full: pk?Math.floor(q/pk.per):0, part: pk?q%pk.per:0,
-           weight: q*w + boxes*(pk?pk.empty:0), vol: boxes*(pk?cuft(pk.dims):0) };
+  const q = qtyOf(p), w = wtOf(p), pk = packOf(p), pkgs = packagesFor(p, q);
+  const boxes = pkgs.reduce((s,k)=>s+k.n,0);
+  return { q, w, pk, pkgs, boxes,
+           weight: q*w + pkgs.reduce((s,k)=>s+k.n*k.empty,0),
+           vol: pkgs.reduce((s,k)=>s+k.n*cuft(k.dims),0),
+           value: q*(p.price||0) };
 }
 function customWeight(c){
   return (+c.carton||0) + c.items.reduce((s,it)=> s + (it.pid ? (P(it.pid)?wtOf(P(it.pid)):0) : (+it.wt||0)) * (+it.qty||0), 0);
+}
+function customValue(c){
+  return c.items.reduce((s,it)=> s + (it.pid && P(it.pid) ? (P(it.pid).price||0)*(+it.qty||0) : 0), 0);
 }
 function customSummary(c){
   return c.items.filter(it=>+it.qty>0).map(it => it.pid ? `${it.qty} × ${P(it.pid)?.code||"?"}${P(it.pid)?.unit==="roll"?" roll":""}` : `${it.qty} × ${esc(it.name||"item")}`).join(" + ") || "Empty";
@@ -377,16 +984,28 @@ function thumb(p){
     ? `<div class="thumb"><span class="codetag">${esc(p.code)}</span><span class="qty-badge"></span><img src="${p.img}" alt="${esc(p.name)}" loading="lazy"></div>`
     : `<div class="thumb code"><span class="qty-badge"></span><div class="codetxt">${esc(p.code)}</div><div class="codesub">${p.unit==="roll"?"100' roll":p.group==="Fast-Tube"?"10' piece":esc(p.group)}</div></div>`;
 }
+function boxLine(p, box, on){
+  const full = box.per*wtOf(p) + box.empty;
+  const cap = box.label==="sample box" ? `up to ${box.per}` : box.per;
+  return `<span class="bx${on?" on":""}">${box.label==="box"?"Box":box.label[0].toUpperCase()+box.label.slice(1)}: ${cap} ${unitWord(p,box.per)} · ${dimTxt(box.dims)} · <b>${lb(full)}</b>${box.label==="box"?"":" est."}</span>`;
+}
+function specFor(p){
+  if (TOTES[p.id]) { const pk = packOf(p); return pk.label==="box" ? boxLine(p, fullBox(p), true)
+      : `<span class="bx on">${pk.label}: ${pk.per} ${unitWord(p,pk.per)} · ${dimTxt(pk.dims)} · <b>${lb(pk.per*wtOf(p)+pk.empty)}</b></span>`; }
+  if (p.ft==="roll")  return boxLine(p, fullBox(p), state.ftRoll!=="half") + boxLine(p, halfBox(p), state.ftRoll!=="full");
+  if (p.ft==="piece") return boxLine(p, fullBox(p), true) + boxLine(p, sampleBox(p), state.ftPiece==="sample");
+  if (p.per) return boxLine(p, fullBox(p), true);
+  if (p.tote) return `<span class="bx on">Tote: ${dimTxt(p.dims)}</span>`;
+  return `<span class="bx">Ships loose (no box)</span>`;
+}
 function cardHTML(p){
   const pk = packOf(p);
-  const spec = p.per
-    ? `${p.per} ${unitWord(p,p.per)}/box · ${p.dims}" · <b>${fmt(p.boxWt)} lb</b> full box`
-    : p.tote ? `Tote ${p.dims}"` : "Ships loose (no box)";
   return `<div class="card" data-id="${p.id}">
     ${thumb(p)}
     <div class="body">
       <div class="name">${esc(p.name)}</div>
-      <div class="spec"><input type="number" step="0.1" min="0" class="wt-in" value="${wtOf(p)}" aria-label="${esc(p.code)} unit weight"> lb / ${p.unit==="roll"?"roll":p.unit==="pair"?"pair":"each"}<br><span class="pk-spec">${spec}</span></div>
+      <div class="price">${money(p.price||0)} <span>/ ${p.unit==="roll"?"roll":p.unit==="pair"?"pair":"each"}</span></div>
+      <div class="spec"><input type="number" step="0.1" min="0" class="wt-in" value="${wtOf(p)}" aria-label="${esc(p.code)} unit weight"> lb / ${p.unit==="roll"?"roll":p.unit==="pair"?"pair":"each"}<span class="pk-spec"></span></div>
       <div class="qrow">
         <div class="stepper">
           <button class="dec" aria-label="Decrease">−</button>
@@ -401,9 +1020,9 @@ function cardHTML(p){
   </div>`;
 }
 function renderCatalog(){
-  $("#catalog").innerHTML = GROUPS.map(g => `<div class="section-title" data-group="${g}">${g}</div>
+  $("#w-catalog").innerHTML = GROUPS.map(g => `<div class="section-title" data-group="${g}">${g}</div>
     <div class="grid" data-group="${g}">${PRODUCTS.filter(p=>p.group===g).map(cardHTML).join("")}</div>`).join("");
-  document.querySelectorAll("#catalog .card").forEach(card=>{
+  ROOT.querySelectorAll("#w-catalog .card").forEach(card=>{
     const p = P(card.dataset.id);
     const qIn = card.querySelector(".qty-in"), wIn = card.querySelector(".wt-in");
     const setQ = v => { state.qty[p.id] = Math.max(0, Math.floor(+v||0)); update(); };
@@ -426,15 +1045,15 @@ function productOptions(sel){
     + `<option value="__other" ${sel==="__other"?"selected":""}>Other item (enter weight)…</option>`;
 }
 function renderEditor(){
-  const slot = $("#editorSlot");
+  const slot = $("#w-editorSlot");
   if (!editing){ slot.innerHTML = ""; return; }
   const c = editing;
   slot.innerHTML = `<div class="editor">
     <h3>${state.customs.some(x=>x.id===c.id) ? "Edit custom box" : "New custom box"}</h3>
     <div class="ed-top">
-      <label class="ed-field">Box name<input id="edName" value="${esc(c.name)}" placeholder="e.g. FF50 kit"></label>
-      <label class="ed-field">Empty box (lb)<input id="edCarton" type="number" min="0" step="0.1" value="${c.carton}"></label>
-      <label class="ed-field">Size L×W×H in (optional)<input id="edDims" value="${esc(c.dims||"")}" placeholder="10x10x27"></label>
+      <label class="ed-field">Box name<input id="w-edName" value="${esc(c.name)}" placeholder="e.g. FF50 kit"></label>
+      <label class="ed-field">Empty box (lb)<input id="w-edCarton" type="number" min="0" step="0.1" value="${c.carton}"></label>
+      <label class="ed-field">Size L×W×H in (optional)<input id="w-edDims" value="${esc(c.dims||"")}" placeholder="10x10x27"></label>
     </div>
     <div class="ed-head"><span>What's in the box</span><span>Qty</span><span class="rwh" style="text-align:right">Weight</span><span></span></div>
     <div class="ed-rows">${c.items.map((it,i)=>{
@@ -447,18 +1066,18 @@ function renderEditor(){
         <span class="rw">${lb(w)}</span>
         <button class="rm" title="Remove">×</button>
       </div>`; }).join("")}</div>
-    <div><button class="btn sm" id="edAdd">+ Add product</button></div>
+    <div><button class="btn sm" id="w-edAdd">+ Add product</button></div>
     <div class="ed-foot">
-      <span class="ed-total">One box weighs <b id="edTotal">${lb(customWeight(c))}</b></span>
-      <span style="display:flex;gap:8px"><button class="btn" id="edCancel">Cancel</button><button class="btn primary" id="edSave">Save box</button></span>
+      <span class="ed-total">One box weighs <b id="w-edTotal">${lb(customWeight(c))}</b></span>
+      <span style="display:flex;gap:8px"><button class="btn" id="w-edCancel">Cancel</button><button class="btn primary" id="w-edSave">Save box</button></span>
     </div>
   </div>`;
-  const refresh = () => { slot.querySelector("#edTotal").textContent = lb(customWeight(c));
+  const refresh = () => { slot.querySelector("#w-edTotal").textContent = lb(customWeight(c));
     slot.querySelectorAll(".ed-row").forEach(r=>{ const it=c.items[+r.dataset.i];
       const w = it.pid ? (P(it.pid)?wtOf(P(it.pid)):0)*(+it.qty||0) : (+it.wt||0)*(+it.qty||0); r.querySelector(".rw").textContent = lb(w); }); };
-  slot.querySelector("#edName").oninput = e => c.name = e.target.value;
-  slot.querySelector("#edCarton").oninput = e => { c.carton = parseFloat(e.target.value)||0; refresh(); };
-  slot.querySelector("#edDims").oninput = e => c.dims = e.target.value;
+  slot.querySelector("#w-edName").oninput = e => c.name = e.target.value;
+  slot.querySelector("#w-edCarton").oninput = e => { c.carton = parseFloat(e.target.value)||0; refresh(); };
+  slot.querySelector("#w-edDims").oninput = e => c.dims = e.target.value;
   slot.querySelectorAll(".ed-row").forEach(r=>{
     const it = c.items[+r.dataset.i];
     const sel = r.querySelector(".ed-sel");
@@ -468,19 +1087,19 @@ function renderEditor(){
     r.querySelector(".ed-qty").oninput = e => { it.qty = Math.max(0, parseInt(e.target.value,10)||0); refresh(); };
     r.querySelector(".rm").onclick = () => { c.items.splice(+r.dataset.i,1); renderEditor(); };
   });
-  slot.querySelector("#edAdd").onclick = () => { c.items.push({pid:"ff50c", qty:1}); renderEditor(); };
-  slot.querySelector("#edCancel").onclick = () => { editing=null; renderEditor(); };
-  slot.querySelector("#edSave").onclick = () => {
+  slot.querySelector("#w-edAdd").onclick = () => { c.items.push({pid:"ff50c", qty:1}); renderEditor(); };
+  slot.querySelector("#w-edCancel").onclick = () => { editing=null; renderEditor(); };
+  slot.querySelector("#w-edSave").onclick = () => {
     c.name = c.name.trim() || "Custom box";
     c.items = c.items.filter(it => +it.qty>0);
     const i = state.customs.findIndex(x=>x.id===c.id);
     if (i>=0) state.customs[i] = c; else state.customs.push(c);
     editing = null; renderEditor(); renderCustoms(); update(); toast("Custom box saved");
   };
-  slot.querySelector("#edName").focus();
+  slot.querySelector("#w-edName").focus();
 }
 function renderCustoms(){
-  $("#customGrid").innerHTML = state.customs.map(c => `<div class="card" data-cid="${c.id}">
+  $("#w-customGrid").innerHTML = state.customs.map(c => `<div class="card" data-cid="${c.id}">
     <div class="thumb custom"><span class="qty-badge"></span><div class="codetxt">${esc(c.name)}</div></div>
     <div class="body">
       <div class="spec">${customSummary(c)}<br>Empty box ${fmt(+c.carton||0)} lb${cuft(c.dims)?` · ${esc(c.dims)}"`:""} · <b class="cw"></b> per box</div>
@@ -492,45 +1111,40 @@ function renderCustoms(){
       </div></div>
       <div class="line-total"><span class="lt-label"></span><b class="lt-val"></b></div>
     </div>
-  </div>`).join("") + `<button class="card" id="newCustom" style="cursor:pointer;align-items:center;justify-content:center;min-height:200px;border-style:dashed;background:var(--panel-2);font-size:16px;color:var(--gold);font-weight:500">+ New custom box</button>`;
-  document.querySelectorAll("[data-cid]").forEach(card=>{
+  </div>`).join("") + `<button class="card" id="w-newCustom" style="cursor:pointer;align-items:center;justify-content:center;min-height:200px;border-style:dashed;background:var(--panel-2);font-size:16px;color:var(--gold);font-weight:500">+ New custom box</button>`;
+  ROOT.querySelectorAll("[data-cid]").forEach(card=>{
     const c = state.customs.find(x=>x.id===card.dataset.cid);
     const qIn = card.querySelector(".qty-in");
     const setC = v => { c.count = Math.max(0, Math.floor(+v||0)); update(); };
     card.querySelector(".inc").onclick = () => setC((c.count||0)+1);
     card.querySelector(".dec").onclick = () => setC((c.count||0)-1);
     qIn.oninput = () => setC(qIn.value); qIn.onfocus = () => qIn.select();
-    card.querySelector(".ed").onclick = () => { editing = JSON.parse(JSON.stringify(c)); renderEditor(); $("#editorSlot").scrollIntoView({behavior:"smooth",block:"center"}); };
+    card.querySelector(".ed").onclick = () => { editing = JSON.parse(JSON.stringify(c)); renderEditor(); $("#w-editorSlot").scrollIntoView({behavior:"smooth",block:"center"}); };
     card.querySelector(".dup").onclick = () => { editing = {...JSON.parse(JSON.stringify(c)), id:"c"+Date.now(), name:c.name+" (copy)", count:0}; renderEditor(); };
     card.querySelector(".del").onclick = () => { state.customs = state.customs.filter(x=>x.id!==c.id); renderCustoms(); update(); toast("Custom box deleted"); };
   });
-  $("#newCustom").onclick = () => { editing = { id:"c"+Date.now(), name:"", carton:1.5, dims:"", count:1, items:[{pid:"ff50",qty:1},{pid:"ff50c",qty:5}] }; renderEditor(); };
+  $("#w-newCustom").onclick = () => { editing = { id:"c"+Date.now(), name:"", carton:1.5, dims:"", count:1, items:[{pid:"ff50",qty:1},{pid:"ff50c",qty:5}] }; renderEditor(); };
 }
 
 /* ---------- UPDATE ---------- */
 function update(){
-  const term = $("#search").value.trim().toLowerCase();
+  const term = $("#w-search").value.trim().toLowerCase();
   const visible = (text, active, group) => (!term || text.toLowerCase().includes(term)) && (!state.onlySel || active) && (state.group==="All" || state.group===group);
 
   // product cards
-  document.querySelectorAll("#catalog .card").forEach(card=>{
+  ROOT.querySelectorAll("#w-catalog .card").forEach(card=>{
     const p = P(card.dataset.id), L = lineFor(p);
     card.classList.toggle("active", L.q>0);
     card.querySelector(".qty-badge").textContent = L.q + " " + unitWord(p,L.q);
     const qIn = card.querySelector(".qty-in"); if (document.activeElement!==qIn) qIn.value = L.q || "";
     card.querySelector(".wt-in").classList.toggle("changed", p.id in state.wt);
-    const pkSpec = card.querySelector(".pk-spec");
-    if (TOTES[p.id]) pkSpec.innerHTML = L.pk.label==="box"
-      ? `${p.per} ${unitWord(p,p.per)}/box · ${p.dims}" · <b>${fmt(p.boxWt)} lb</b> full box`
-      : `${L.pk.per} per ${L.pk.label} · ${L.pk.dims}" · <b>${fmt(L.pk.per*L.w + L.pk.empty)} lb</b> full tote`;
-    card.querySelector(".breakdown").innerHTML = !L.q ? "" : L.pk
-      ? `${L.full} full ${L.pk.label}${L.full===1?"":(L.pk.label==="box"?"es":"s")}${L.part?` + 1 partial (${L.part} ${unitWord(p,L.part)})`:""}`
-      : `${L.q} ${unitWord(p,L.q)} loose`;
-    card.querySelector(".lt-label").textContent = L.q ? "Weight" : (L.pk ? `Full ${L.pk.label}: ${lb(L.pk.per*L.w + L.pk.empty)}` : `${lb(L.w)} each`);
+    card.querySelector(".pk-spec").innerHTML = specFor(p);
+    card.querySelector(".breakdown").innerHTML = !L.q ? "" : L.pkgs.length ? describePkgs(p, L.pkgs) : `${L.q} ${unitWord(p,L.q)} loose`;
+    card.querySelector(".lt-label").textContent = L.q ? money(L.value) : (L.pk ? `Full ${L.pk.label}: ${lb(L.pk.per*L.w + L.pk.empty)}` : `${lb(L.w)} each`);
     card.querySelector(".lt-val").textContent = L.q ? lb(L.weight) : "";
     card.style.display = visible(p.code+" "+p.name, L.q>0, p.group) ? "" : "none";
   });
-  document.querySelectorAll("#catalog .grid").forEach(grid=>{
+  ROOT.querySelectorAll("#w-catalog .grid").forEach(grid=>{
     const any = [...grid.children].some(c=>c.style.display!=="none");
     grid.style.display = any ? "" : "none";
     grid.previousElementSibling.style.display = any ? "" : "none";
@@ -538,7 +1152,7 @@ function update(){
 
   // custom cards
   let anyCustom = false;
-  document.querySelectorAll("[data-cid]").forEach(card=>{
+  ROOT.querySelectorAll("[data-cid]").forEach(card=>{
     const c = state.customs.find(x=>x.id===card.dataset.cid), w = customWeight(c), n = c.count||0;
     card.classList.toggle("active", n>0);
     card.querySelector(".qty-badge").textContent = n + (n===1?" box":" boxes");
@@ -550,75 +1164,104 @@ function update(){
     card.style.display = show ? "" : "none"; anyCustom = anyCustom || show;
   });
   const showNew = !state.onlySel && !term && (state.group==="All"||state.group==="Custom");
-  $("#newCustom").style.display = showNew ? "" : "none";
+  $("#w-newCustom").style.display = showNew ? "" : "none";
   const showCustomSec = anyCustom || showNew || !!editing;
-  $("#customTitle").style.display = $("#customGrid").style.display = showCustomSec ? "" : "none";
+  $("#w-customTitle").style.display = $("#w-customGrid").style.display = showCustomSec ? "" : "none";
 
   // summary
-  let prod=0, boxes=0, vol=0; const rows=[];
+  let prod=0, boxes=0, vol=0, value=0; const rows=[];
   PRODUCTS.forEach(p=>{
     const L = lineFor(p); if (!L.q) return;
-    prod += L.weight; boxes += L.boxes; vol += L.vol;
-    const nm = n => L.pk.label==="box" ? (n===1?"box":"boxes") : L.pk.label+(n===1?"":"s");
-    const how = !L.pk ? "loose" : [L.full?`${L.full} full ${nm(L.full)}`:"", L.part?`1 partial ${nm(1)}`:""].filter(Boolean).join(" + ");
-    rows.push(`<div class="ln"><span class="n">${esc(p.code)} × ${L.q} ${unitWord(p,L.q)}</span><span class="t">${lb(L.weight)}</span><span class="d">${how} · ${L.w} lb ${p.unit==="pair"?"/pair":"each"}</span></div>`);
+    prod += L.weight; boxes += L.boxes; vol += L.vol; value += L.value;
+    const how = L.pkgs.length ? describePkgs(p, L.pkgs) : "loose";
+    const sizes = [...new Set(L.pkgs.map(k=>dimTxt(k.dims)))].join(", ");
+    rows.push(`<div class="ln"><span class="n">${esc(p.code)} × ${L.q} ${unitWord(p,L.q)}</span><span class="t">${lb(L.weight)}</span><span class="d">${how}${sizes?` · ${sizes}`:""}<br>${L.w} lb ${p.unit==="pair"?"/pair":"each"} · ${money(p.price||0)} → ${money(L.value)}</span></div>`);
   });
   state.customs.forEach(c=>{
-    const n = c.count||0; if (!n) return; const w = customWeight(c);
-    prod += n*w; boxes += n; vol += n*cuft(c.dims);
-    rows.push(`<div class="ln"><span class="n">${esc(c.name)} × ${n}</span><span class="t">${lb(n*w)}</span><span class="d">${customSummary(c)} · ${lb(w)} per box</span></div>`);
+    const n = c.count||0; if (!n) return; const w = customWeight(c), v = customValue(c);
+    prod += n*w; boxes += n; vol += n*cuft(c.dims); value += n*v;
+    rows.push(`<div class="ln"><span class="n">${esc(c.name)} × ${n}</span><span class="t">${lb(n*w)}</span><span class="d">${customSummary(c)}${cuft(c.dims)?` · ${dimTxt(c.dims)}`:""} · ${lb(w)} per box${v?` · ${money(n*v)}`:""}</span></div>`);
   });
-  $("#lines").innerHTML = rows.join("") || `<div class="empty">Add products or custom boxes to build a pallet.</div>`;
+  $("#w-lines").innerHTML = rows.join("") || `<div class="empty">Add products or custom boxes to build a pallet.</div>`;
   const pal = (state.pallets||0) * (state.palWt||0), total = prod + pal;
-  $("#boxCount").textContent = `${boxes} box${boxes===1?"":"es"}`;
-  $("#prodWt").textContent = lb(prod);
-  $("#palLabel").textContent = `Pallet${state.pallets===1?"":"s"} (${state.pallets||0} × ${fmt(state.palWt||0)} lb)`;
-  $("#palTotal").textContent = lb(pal);
-  $("#grand").textContent = lb(total);
-  $("#grandKg").textContent = fmt(total*0.45359237) + " kg";
-  $("#stBoxes").textContent = boxes;
-  $("#stVol").innerHTML = `${fmt(vol)} <small>ft³</small>`;
-  $("#stPer").innerHTML = state.pallets>1 ? `${fmt(total/state.pallets,0)} <small>lb avg</small>` : `${fmt(total,0)} <small>lb</small>`;
+  minLoad = Math.max(0, ...PRODUCTS.flatMap(p => lineFor(p).pkgs.map(k => Math.min(...(dimsArr(k.dims)||[0])))),
+                         ...state.customs.filter(c=>c.count>0 && dimsArr(c.dims)).map(c => Math.min(...dimsArr(c.dims))));
+  const PD = palletDims(vol);
+  $("#w-boxCount").textContent = `${boxes} box${boxes===1?"":"es"}`;
+  $("#w-prodWt").textContent = lb(prod);
+  $("#w-palLabel").textContent = `Pallet${state.pallets===1?"":"s"} (${state.pallets||0} × ${fmt(state.palWt||0)} lb)`;
+  $("#w-palTotal").textContent = lb(pal);
+  $("#w-grand").textContent = lb(total);
+  $("#w-grandKg").textContent = fmt(total*0.45359237) + " kg";
+  $("#w-value").textContent = money(value);
+  $("#w-stBoxes").textContent = boxes;
+  $("#w-stVol").innerHTML = `${fmt(vol)} <small>ft³</small>`;
+  $("#w-stPer").innerHTML = state.pallets>1 ? `${fmt(total/state.pallets,0)} <small>lb avg</small>` : `${fmt(total,0)} <small>lb</small>`;
+  $("#w-stDims").innerHTML = PD && (vol || !PD.auto) ? `${PD.L} × ${PD.W} × ${PD.H} <small>in${PD.auto?" est.":""}</small>` : "—";
+  $("#w-stPalVol").innerHTML = PD ? `${fmt(PD.cuft*state.pallets)} <small>ft³</small>` : "—";
+  $("#w-stDens").innerHTML = PD && total ? `${fmt(total/(PD.cuft*state.pallets))} <small>lb/ft³</small>` : "—";
+  const autoH = palletDims(vol, true);
+  $("#w-palH").placeholder = autoH && vol ? `auto ${autoH.H}` : "auto";
   const loose = PRODUCTS.filter(p=>!packOf(p) && qtyOf(p)>0 && !p.tote).map(p=>p.code);
   const noDims = state.customs.filter(c=>c.count>0 && !cuft(c.dims)).map(c=>c.name);
   const msgs = [];
   if (loose.length) msgs.push(`${loose.join(", ")} ship loose, so they add weight but no volume.`);
   if (noDims.length) msgs.push(`Add a box size to ${noDims.map(esc).join(", ")} to include it in volume.`);
-  $("#warn").hidden = !msgs.length; $("#warn").innerHTML = msgs.join(" ");
+  if (PD && !PD.auto && autoH && PD.H < autoH.H) msgs.push(`The boxes probably need about ${autoH.H}" of height on ${state.pallets===1?"this pallet":"each pallet"}; ${PD.H}" may be too low.`);
+  $("#w-warn").hidden = !msgs.length; $("#w-warn").innerHTML = msgs.join(" ");
 
   // controls
-  $("#palCount").value = state.pallets; if (document.activeElement!==$("#palWt")) $("#palWt").value = state.palWt;
-  document.querySelectorAll("[data-seg]").forEach(s => s.querySelectorAll("button").forEach(b => b.classList.toggle("on", state[s.dataset.seg]===b.dataset.v)));
-  document.querySelectorAll("#chips .chip").forEach(c => c.classList.toggle("on", c.dataset.g===state.group));
+  $("#w-palCount").value = state.pallets; if (document.activeElement!==$("#w-palWt")) $("#w-palWt").value = state.palWt;
+  if (document.activeElement!==$("#w-palH")) $("#w-palH").value = state.palH ?? "";
+  if (document.activeElement!==$("#w-sampleCap")) $("#w-sampleCap").value = state.sampleCap;
+  ROOT.querySelectorAll("[data-seg]").forEach(s => s.querySelectorAll("button").forEach(b => b.classList.toggle("on", state[s.dataset.seg]===b.dataset.v)));
+  ROOT.querySelectorAll("#w-chips .chip").forEach(c => c.classList.toggle("on", c.dataset.g===state.group));
   save();
+}
+/* pallet L × W × H (in). H = entered height, or the pallet deck + estimated load height
+   (never less than the tallest box laid on its flattest side) */
+let minLoad = 0;
+function palletDims(vol, forceAuto){
+  const n = state.pallets||0, F = PALLETS[state.palSize] || PALLETS.big;
+  if (!n) return null;
+  const auto = forceAuto || !(state.palH>0);
+  const load = vol*1728 / n / (F.L*F.W*PALLET_FILL);
+  const H = auto ? PALLET_DECK + Math.ceil(Math.max(load, minLoad)) : state.palH;
+  return { L:F.L, W:F.W, H, auto, cuft: F.L*F.W*H/1728 };
 }
 
 /* ---------- WIRING ---------- */
-$("#chips").innerHTML = ["All", ...GROUPS, "Custom"].map(g=>`<button class="chip" data-g="${g}">${g==="Custom"?"Custom boxes":g}</button>`).join("");
-$("#chips").querySelectorAll(".chip").forEach(c => c.onclick = () => { state.group = c.dataset.g; update(); });
-document.querySelectorAll("[data-pal]").forEach(b => b.onclick = () => { state.pallets = Math.max(0,(state.pallets||0) + +b.dataset.pal); update(); });
-$("#palCount").oninput = e => { state.pallets = Math.max(0, parseInt(e.target.value,10)||0); update(); };
-$("#palWt").oninput = e => { state.palWt = Math.max(0, parseFloat(e.target.value)||0); update(); };
-document.querySelectorAll("[data-seg]").forEach(s => s.querySelectorAll("button").forEach(b => b.onclick = () => { state[s.dataset.seg] = b.dataset.v; update(); }));
-$("#search").oninput = update;
-$("#onlySel").checked = state.onlySel;
-$("#onlySel").onchange = e => { state.onlySel = e.target.checked; update(); };
-$("#clearBtn").onclick = () => { state.qty = {}; state.customs.forEach(c=>c.count=0); update(); toast("Pallet cleared"); };
-$("#printBtn").onclick = () => window.print();
-$("#copyBtn").onclick = async () => {
-  const out = [`Fab-Form pallet weight estimate — ${new Date().toLocaleDateString("en-CA")}`, ""];
-  PRODUCTS.forEach(p=>{ const L=lineFor(p); if (L.q) out.push(`${p.code} ${p.name} × ${L.q} ${unitWord(p,L.q)} (${L.pk?`${L.boxes} ${L.pk.label==="box"?(L.boxes===1?"box":"boxes"):L.pk.label+(L.boxes===1?"":"s")}`:"loose"}) = ${lb(L.weight)}`); });
-  state.customs.forEach(c=>{ if (c.count) out.push(`${c.name} × ${c.count} (${customSummary(c)}) = ${lb(c.count*customWeight(c))}`); });
-  out.push("", `Products & packaging: ${$("#prodWt").textContent}`, `${$("#palLabel").textContent}: ${$("#palTotal").textContent}`,
-           `TOTAL: ${$("#grand").textContent} (${$("#grandKg").textContent})`, `Boxes: ${$("#stBoxes").textContent} · Box volume: ${$("#stVol").textContent}`);
+$("#w-chips").innerHTML = ["All", ...GROUPS, "Custom"].map(g=>`<button class="chip" data-g="${g}">${g==="Custom"?"Custom boxes":g}</button>`).join("");
+$("#w-chips").querySelectorAll(".chip").forEach(c => c.onclick = () => { state.group = c.dataset.g; update(); });
+ROOT.querySelectorAll("[data-pal]").forEach(b => b.onclick = () => { state.pallets = Math.max(0,(state.pallets||0) + +b.dataset.pal); update(); });
+$("#w-palCount").oninput = e => { state.pallets = Math.max(0, parseInt(e.target.value,10)||0); update(); };
+$("#w-palWt").oninput = e => { state.palWt = Math.max(0, parseFloat(e.target.value)||0); update(); };
+$("#w-palH").oninput = e => { const v = parseFloat(e.target.value); state.palH = v>0 ? v : null; update(); };
+$("#w-sampleCap").oninput = e => { const v = parseInt(e.target.value,10); if (v>0) { state.sampleCap = v; update(); } };
+$("#w-sampleCap").onblur = e => { e.target.value = state.sampleCap; };
+ROOT.querySelectorAll("[data-seg]").forEach(s => s.querySelectorAll("button").forEach(b => b.onclick = () => { state[s.dataset.seg] = b.dataset.v; update(); }));
+$("#w-search").oninput = update;
+$("#w-onlySel").checked = state.onlySel;
+$("#w-onlySel").onchange = e => { state.onlySel = e.target.checked; update(); };
+$("#w-clearBtn").onclick = () => { state.qty = {}; state.customs.forEach(c=>c.count=0); update(); toast("Pallet cleared"); };
+$("#w-printBtn").onclick = () => window.print();
+$("#w-copyBtn").onclick = async () => {
+  const out = [`Fab-Form pallet estimate — ${new Date().toLocaleDateString("en-CA")}`, ""];
+  PRODUCTS.forEach(p=>{ const L=lineFor(p); if (!L.q) return;
+    const sizes = L.pkgs.map(k=>`${k.n} × ${k.label} ${dimTxt(k.dims)}`).join(", ");
+    out.push(`${p.code} ${p.name} × ${L.q} ${unitWord(p,L.q)} (${sizes||"loose"}) = ${lb(L.weight)} · ${money(L.value)}`); });
+  state.customs.forEach(c=>{ if (c.count) out.push(`${c.name} × ${c.count} (${customSummary(c)}${cuft(c.dims)?`, ${dimTxt(c.dims)}`:""}) = ${lb(c.count*customWeight(c))}`); });
+  out.push("", `Products & packaging: ${$("#w-prodWt").textContent}`, `${$("#w-palLabel").textContent}: ${$("#w-palTotal").textContent}`,
+           `TOTAL: ${$("#w-grand").textContent} (${$("#w-grandKg").textContent})`,
+           `Pallet size (L × W × H): ${$("#w-stDims").textContent}${state.pallets>1?` each × ${state.pallets}`:""}`,
+           `Boxes: ${$("#w-stBoxes").textContent} · Box volume: ${$("#w-stVol").textContent} · Density: ${$("#w-stDens").textContent}`,
+           `Product value (contractor price): ${$("#w-value").textContent}`);
   try { await navigator.clipboard.writeText(out.join("\n")); toast("Summary copied"); } catch(e){ toast("Couldn't copy — try Print instead"); }
 };
-function applyTheme(){ if (state.theme) document.documentElement.dataset.theme = state.theme; else delete document.documentElement.dataset.theme; }
-$("#themeBtn").onclick = () => { const dark = state.theme ? state.theme==="dark" : matchMedia("(prefers-color-scheme: dark)").matches; state.theme = dark?"light":"dark"; applyTheme(); save(); };
 let tt; function toast(m){ const t=$("#toast"); t.textContent=m; t.classList.add("show"); clearTimeout(tt); tt=setTimeout(()=>t.classList.remove("show"),1600); }
 
-$("#today").textContent = new Date().toLocaleDateString("en-CA",{year:"numeric",month:"short",day:"numeric"});
-applyTheme(); renderCatalog(); renderCustoms(); update();
+renderCatalog(); renderCustoms(); update();
+})();
 </script>
 </body>
 </html>
