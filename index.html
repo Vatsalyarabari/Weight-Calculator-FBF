@@ -279,6 +279,24 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
 #tab-weight .imported{margin:10px 16px 0;padding:8px 10px;border-radius:4px;border-left:3px solid var(--navy-2);background:var(--panel-2);font-size:13px;color:var(--ink-2)}
 #tab-weight .imported b{color:var(--ink)}
 #tab-weight .imported button{border:0;background:none;color:var(--gold);text-decoration:underline;cursor:pointer;padding:0;font-size:13px}
+#tab-weight .droparea{display:flex;gap:14px;align-items:center;margin:0 0 18px;padding:16px 20px;border:2px dashed var(--line);border-radius:6px;background:var(--panel);cursor:pointer;color:var(--ink-2);font-size:15px;transition:border-color .15s,background .15s}
+#tab-weight .droparea b{color:var(--ink)}
+#tab-weight .droparea:hover,#tab-weight .droparea:focus-visible,#tab-weight .droparea.hot{border-color:var(--orange);background:var(--soft);outline:none}
+#tab-weight .droparea .da-icon{font-size:28px;color:var(--orange);line-height:1}
+#tab-weight .droparea .da-sub{display:block;font-size:13px;margin-top:2px}
+#tab-weight .xbtn{border:0;background:none;color:var(--ink-2);cursor:pointer;font-size:17px;line-height:1;padding:2px 6px;border-radius:4px}
+#tab-weight .xbtn:hover{color:#c0392b;background:var(--soft)}
+#tab-weight .ln .xbtn{font-size:15px;padding:0 4px;vertical-align:1px;opacity:.55}
+#tab-weight .ln:hover .xbtn{opacity:1}
+#tab-weight .linkbtn{border:0;background:none;color:var(--gold);text-decoration:underline;cursor:pointer;font-size:13px;padding:0;white-space:nowrap}
+#tab-weight .imp-table tr.fhead td{background:var(--panel-2);padding:8px 10px;font-size:13px;color:var(--ink-2)}
+#tab-weight .imp-table tr.fhead b{color:var(--ink);font-size:14px}
+#tab-weight .imp-table .fh{display:flex;justify-content:space-between;gap:10px;align-items:center}
+#tab-weight .imp-table tr.off td{opacity:.45}
+#tab-weight .imp-table tr.off td:first-child{opacity:1}
+#tab-weight .imp-table input[type=checkbox]{width:16px;height:16px;accent-color:var(--orange)}
+#tab-weight .imp-hint{padding:0 18px 12px;font-size:12px;color:var(--ink-2)}
+#tab-weight .btn[disabled]{opacity:.45;cursor:not-allowed}
 #tab-weight .editor{background:var(--panel);border:1px solid var(--orange);border-radius:4px;padding:16px;margin-bottom:14px;display:grid;gap:12px}
 #tab-weight .editor h3{margin:0;font-weight:500;font-size:18px}
 #tab-weight .ed-top{display:grid;grid-template-columns:2fr 1fr 1.2fr;gap:10px}
@@ -470,12 +488,16 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
       <div class="sub">Add boxes or pieces of each product to get the shipping weight of the whole pallet.</div>
     </div>
     <div class="head-actions">
-      <button class="btn navy" id="w-importBtn" title="Odoo delivery slip PDF — or drag it anywhere on this page">⤓ Import delivery slip</button>
       <button class="btn" id="w-clearBtn">Clear pallet</button>
       <input type="file" id="w-importFile" accept=".pdf,application/pdf" multiple hidden>
     </div>
   </header>
 
+  <div class="droparea" id="w-dropArea" role="button" tabindex="0" aria-label="Drop Odoo PDFs here, or press Enter to browse">
+    <span class="da-icon">⤓</span>
+    <span><b>Drag Odoo PDFs here</b> to fill in quantities. Delivery slips, quotations, sale orders or invoices; drop several at once.
+    <span class="da-sub">You review every line before anything changes · or <u>browse</u></span></span>
+  </div>
   <section class="palletbar">
     <div class="pb-item">
       <span class="pb-label">Pallets</span>
@@ -562,7 +584,7 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
     </aside>
   </div>
 </div>
-<div class="dropzone" id="w-dropzone"><div><b>Drop the delivery slip PDF</b><span>Quantities are filled in from the Delivered column</span></div></div>
+<div class="dropzone" id="w-dropzone"><div><b>Drop the PDFs</b><span>Delivery slips, quotations, orders or invoices. Several at once is fine.</span></div></div>
 <div id="w-importSlot"></div>
 </section>
 
@@ -1208,12 +1230,12 @@ function update(){
     prod += L.weight; boxes += L.boxes; vol += L.vol; value += L.value;
     const how = L.pkgs.length ? describePkgs(p, L.pkgs) : "loose";
     const sizes = [...new Set(L.pkgs.map(k=>dimTxt(k.dims)))].join(", ");
-    rows.push(`<div class="ln"><span class="n">${esc(p.code)} × ${L.q} ${unitWord(p,L.q)}</span><span class="t">${lb(L.weight)}</span><span class="d">${how}${sizes?` · ${sizes}`:""}<br>${L.w} lb ${p.unit==="pair"?"/pair":"each"} · ${money(p.price||0)} → ${money(L.value)}</span></div>`);
+    rows.push(`<div class="ln"><span class="n">${esc(p.code)} × ${L.q} ${unitWord(p,L.q)} <button class="xbtn" data-rm="${p.id}" title="Remove from pallet" aria-label="Remove ${esc(p.code)}">×</button></span><span class="t">${lb(L.weight)}</span><span class="d">${how}${sizes?` · ${sizes}`:""}<br>${L.w} lb ${p.unit==="pair"?"/pair":"each"} · ${money(p.price||0)} → ${money(L.value)}</span></div>`);
   });
   state.customs.forEach(c=>{
     const n = c.count||0; if (!n) return; const w = customWeight(c), v = customValue(c);
     prod += n*w; boxes += n; vol += n*cuft(c.dims); value += n*v;
-    rows.push(`<div class="ln"><span class="n">${esc(c.name)} × ${n}</span><span class="t">${lb(n*w)}</span><span class="d">${customSummary(c)}${cuft(c.dims)?` · ${dimTxt(c.dims)}`:""} · ${lb(w)} per box${v?` · ${money(n*v)}`:""}</span></div>`);
+    rows.push(`<div class="ln"><span class="n">${esc(c.name)} × ${n} <button class="xbtn" data-rmc="${c.id}" title="Remove from pallet" aria-label="Remove ${esc(c.name)}">×</button></span><span class="t">${lb(n*w)}</span><span class="d">${customSummary(c)}${cuft(c.dims)?` · ${dimTxt(c.dims)}`:""} · ${lb(w)} per box${v?` · ${money(n*v)}`:""}</span></div>`);
   });
   $("#w-lines").innerHTML = rows.join("") || `<div class="empty">Add products or custom boxes to build a pallet.</div>`;
   const pal = (state.pallets||0) * (state.palWt||0), total = prod + pal;
@@ -1304,34 +1326,54 @@ async function pdfRows(file){
 const NUM = /^\d[\d,]*(\.\d+)?$/;
 const num = s => parseFloat(String(s).replace(/,/g,""));
 function parseSlip(rows){
+  /* Works for Odoo delivery slips ("144.00000 Units", Ordered/Delivered columns) and for
+     quotations / sale orders / invoices (Description · Qty · Price … table). */
   const info = {}, sections = { delivered:[], quantity:[] };
-  let mode = null, productX = null;
+  let mode = null, productX = null, qtyX = null, shipX = null, addrNext = false;
   rows.forEach(r => {
-    const t = r.text;
+    const t = r.text, c0 = r.cells[0];
     let m;
     if (!info.ref && (m = t.match(/\b([A-Z]{2,6}(?:-[A-Z])?\/OUT\/\d+)\b/))) info.ref = m[1];
+    if (!info.ref && (m = t.match(/^(Quotation|Sales Order|Order|Invoice|Pro-?forma Invoice)\s*#?\s*(\S+)/i))) info.ref = `${m[1]} ${m[2]}`;
     if (!info.order && (m = t.match(/Order:\s*(\S+)/))) info.order = m[1];
     if (!info.kg && (m = t.match(/Weight:\s*([\d,]+(?:\.\d+)?)\s*(kg|lb)/i))) info.kg = m[2].toLowerCase()==="lb" ? num(m[1])*0.45359237 : num(m[1]);
-    if (!info.date && (m = t.match(/(?:Shipping|Scheduled) Date:\s*(\S+)/))) info.date = m[1];
-    if (t.startsWith("Delivery Address:")) info._addr = true;
-    else if (info._addr && !info.customer && r.cells[0]) { info.customer = r.cells[0].s.replace(/\s*-\s*$/,""); }
-    if (/^Product\b/.test(t)) {
-      mode = /Delivered/.test(t) ? "delivered" : /Quantity|Ordered|Qty/i.test(t) ? "quantity" : null;
-      productX = r.cells[0].x; return;
+    if (!info.date && (m = t.match(/(?:Shipping|Scheduled|Quotation|Order|Invoice) Date:\s*(\S+)/))) info.date = m[1];
+    // customer: "Ship To:" column if there is one, else the first line under "Delivery Address:"
+    if (/Delivery Address:|Ship To:|Invoice To:/.test(t)) {
+      const st = r.cells.find(c => /^Ship To:?$/.test(c.s)) || r.cells.find(c => /^Delivery Address:?$/.test(c.s));
+      shipX = st ? st.x : c0.x; addrNext = true; return;
     }
-    if (!mode) return;
-    // product row: starts in the Product column and has "<number> Units"
+    if (addrNext) { addrNext = false; const c = r.cells.reduce((a,c) => Math.abs(c.x-shipX) < Math.abs(a.x-shipX) ? c : a, c0);
+      if (!info.customer) info.customer = c.s.replace(/\s*-\s*$/,"").replace(/,\s*Accounts Payable$/i,""); }
+    // table header
+    if (/^(Product|Description|Item)\b/i.test(c0.s) && r.cells.some(c => /^(Qty|Quantity|Ordered|Delivered|Done|Demand)$/i.test(c.s))) {
+      mode = /Delivered/.test(t) ? "delivered" : "quantity";
+      productX = c0.x;
+      const qc = r.cells.find(c => /^Delivered$/i.test(c.s)) || r.cells.find(c => /^(Qty|Quantity|Done|Demand|Ordered)$/i.test(c.s));
+      qtyX = qc ? qc.x : null; return;
+    }
+    if (!mode || Math.abs(c0.x - productX) > 6) return;
+    if (/^(Untaxed Amount|Subtotal|Total|Taxes?|HST|GST|PST)\b/i.test(t)) return;
+    let name, qty;
+    // delivery-slip style: "<number> Units" — the last one is the Delivered column
     const ui = r.cells.map((c,i)=>({c,i})).filter(o => /^Units?\b/i.test(o.c.s) && o.i>0 && NUM.test(r.cells[o.i-1].s));
-    if (!ui.length || Math.abs(r.cells[0].x - productX) > 6) return;
-    const firstNum = ui[0].i - 1;
-    const name = r.cells.slice(0, firstNum).map(c=>c.s).join(" ").trim();
-    const qty = num(r.cells[ui[ui.length-1].i - 1].s);   // last "Units" figure = Delivered column when present
-    const detail = r.cells[r.cells.length-1].s;
+    if (ui.length) {
+      name = r.cells.slice(0, ui[0].i - 1).map(c=>c.s).join(" ");
+      qty = num(r.cells[ui[ui.length-1].i - 1].s);
+    } else if (qtyX !== null) {
+      // quotation style: the number sitting in the Qty column
+      const qc = r.cells.filter(c => c !== c0 && NUM.test(c.s.replace(/\s*(Units?|pcs|ea)$/i,"")) && Math.abs(c.x - qtyX) < 30)
+                        .sort((a,b) => Math.abs(a.x-qtyX) - Math.abs(b.x-qtyX))[0];
+      if (!qc) return;
+      name = r.cells.filter(c => c.x < qc.x - 20).map(c=>c.s).join(" ");
+      qty = num(qc.s);
+    } else return;
+    name = name.trim();
+    const detail = r.cells.length > 2 && ui.length ? r.cells[r.cells.length-1].s : "";
     if (name && qty >= 0) sections[mode].push({ name, qty, detail });
   });
-  delete info._addr;
   const lines = sections.delivered.length ? sections.delivered : sections.quantity;
-  info.source = sections.delivered.length ? "Delivered column" : "Quantity column";
+  info.source = sections.delivered.length ? "Delivered column" : "Qty column";
   return { info, lines };
 }
 /* Plain-text fallback (also handy for testing): "Name   12.000 Units ..." per line */
@@ -1348,6 +1390,7 @@ const normName = s => String(s).toLowerCase().replace(/[®™©]/g,"").replace(/
 function matchProduct(name){
   const n = normName(name);
   if (importAliases[n] !== undefined) return importAliases[n];      // remembered choice ("" = skip)
+  if (/\bskid\b|freight|shipping|delivery charge|handling|discount|deposit|crating/.test(n)) return "";   // not a product: skip
   const code = PRODUCTS.find(p => n === normName(p.code));
   if (code && !p_isFtDup(code)) return code.id;
   let m;
@@ -1394,106 +1437,148 @@ function packagingPlan(qty){
   return plan;
 }
 
-/* ---------- review dialog ---------- */
-let importing = null;     // { info, rows:[{name, qty, pid, detail}], mode:"replace"|"add", files:[] }
+/* ---------- review dialog ----------
+   importing = { mode, files:[{ key, name, info, rows:[{name, qty, pid, detail, on}] }] }
+   Several files can be added (drop more while the review is open); each line can be
+   unticked or removed, and a whole file can be removed. */
+let importing = null;
 function productSelect(sel){
   return `<option value="">— Skip this line —</option>` + GROUPS.map(g => `<optgroup label="${g}">${PRODUCTS.filter(p=>p.group===g).map(p =>
     `<option value="${p.id}" ${sel===p.id?"selected":""}>${esc(p.code)} — ${esc(p.name)}</option>`).join("")}</optgroup>`).join("");
 }
+const allRows = () => importing.files.flatMap(f => f.rows);
 function importTotals(){
   const qty = {};
-  importing.rows.forEach(r => { if (r.pid && r.qty>0) qty[r.pid] = (qty[r.pid]||0) + r.qty; });
+  allRows().forEach(r => { if (r.on && r.pid && r.qty>0) qty[r.pid] = (qty[r.pid]||0) + r.qty; });
   return packagingPlan(qty);
 }
+const fileTitle = f => f.info.ref || f.name;
+function closeImport(){ importing = null; renderImport(); }
 function renderImport(){
   const slot = $("#w-importSlot");
-  if (!importing){ slot.innerHTML = ""; return; }
-  const I = importing.info, unk = importing.rows.filter(r => r.pid===null).length;
-  slot.innerHTML = `<div class="modal-bg"><div class="modal" role="dialog" aria-modal="true" aria-label="Import delivery slip">
-    <h3>Import ${esc(I.ref || importing.files.join(", "))}</h3>
-    <div class="meta">${[I.customer && `<b>${esc(I.customer)}</b>`, I.order && `Order ${esc(I.order)}`, I.date && esc(I.date), I.kg && `Odoo weight ${fmt(I.kg)} kg`, `${importing.rows.length} lines · ${esc(I.source)}`].filter(Boolean).join(" · ")}
-      ${unk ? `<br><b style="color:var(--gold)">${unk} line${unk===1?"":"s"} not recognised</b> — pick a product or skip. Your choice is remembered next time.` : ""}</div>
+  if (!importing || !importing.files.length){ importing = null; slot.innerHTML = ""; return; }
+  const rows = allRows(), unk = rows.filter(r => r.on && r.pid===null).length, on = rows.filter(r => r.on).length;
+  const multi = importing.files.length > 1;
+  slot.innerHTML = `<div class="modal-bg"><div class="modal" role="dialog" aria-modal="true" aria-label="Import PDFs">
+    <h3>${multi ? `Import ${importing.files.length} files` : `Import ${esc(fileTitle(importing.files[0]))}`}</h3>
+    <div class="meta">${on} of ${rows.length} lines selected${unk ? ` · <b style="color:var(--gold)">${unk} not recognised</b>: pick a product, or untick it. Your choice is remembered next time.` : ""}</div>
     <div class="imp-body"><table class="imp-table">
-      <thead><tr><th>On the slip</th><th style="text-align:right">Qty</th><th style="width:46%">Calculator product</th></tr></thead>
-      <tbody>${importing.rows.map((r,i) => `<tr class="${r.pid===null?"unk":""}" data-i="${i}">
-        <td>${esc(r.name)}${r.detail && r.detail!==String(r.qty) ? `<div class="src">${esc(r.detail)}</div>` : ""}</td>
-        <td class="q"><input type="number" min="0" step="0.5" value="${r.qty}"></td>
-        <td><select>${r.pid===null ? `<option value="__none" selected>Not recognised — choose…</option>` : ""}${productSelect(r.pid)}</select></td>
-      </tr>`).join("")}</tbody></table></div>
+      <thead><tr><th style="width:34px"><input type="checkbox" id="w-impAll" title="Select all / none" ${on===rows.length?"checked":""}></th><th>On the PDF</th><th style="text-align:right">Qty</th><th style="width:44%">Calculator product</th><th style="width:34px"></th></tr></thead>
+      ${importing.files.map((f,fi) => { const I = f.info; return `<tbody data-f="${fi}">
+        <tr class="fhead"><td colspan="5"><div class="fh">
+          <span><b>${esc(fileTitle(f))}</b>${[I.customer && esc(I.customer), I.order && `Order ${esc(I.order)}`, I.date && esc(I.date), I.kg && `Odoo weight ${fmt(I.kg)} kg`, `${f.rows.length} lines · ${esc(I.source||"")}`].filter(Boolean).map(x=>` · ${x}`).join("")}</span>
+          <button class="linkbtn rmfile" title="Remove this file from the import">Remove file</button></div></td></tr>
+        ${f.rows.map((r,ri) => `<tr class="${!r.on?"off":r.pid===null?"unk":""}" data-r="${ri}">
+          <td><input type="checkbox" class="pick" ${r.on?"checked":""} aria-label="Include ${esc(r.name)}"></td>
+          <td>${esc(r.name)}${r.detail && r.detail!==String(r.qty) ? `<div class="src">${esc(r.detail)}</div>` : ""}</td>
+          <td class="q"><input type="number" class="iq" min="0" step="0.5" value="${r.qty}"></td>
+          <td><select>${r.pid===null ? `<option value="__none" selected>Not recognised — choose…</option>` : ""}${productSelect(r.pid)}</select></td>
+          <td><button class="xbtn rmrow" title="Remove this line" aria-label="Remove ${esc(r.name)}">×</button></td>
+        </tr>`).join("")}</tbody>`; }).join("")}
+    </table></div>
     <div class="imp-notes" id="w-impNotes"></div>
     <div class="imp-foot">
-      <span style="display:flex;gap:14px;flex-wrap:wrap">
-        <label><input type="radio" name="impMode" value="replace" ${importing.mode==="replace"?"checked":""}> Replace what's on the pallet</label>
+      <span style="display:flex;gap:14px;flex-wrap:wrap;align-items:center">
+        <button class="btn" id="w-impMore">+ Add files</button>
+        <button class="btn" id="w-impRmSel" ${on?"":"disabled"}>Remove selected</button>
+        <label><input type="radio" name="impMode" value="replace" ${importing.mode==="replace"?"checked":""}> Replace pallet</label>
         <label><input type="radio" name="impMode" value="add" ${importing.mode==="add"?"checked":""}> Add to it</label>
       </span>
-      <span style="display:flex;gap:8px"><button class="btn" id="w-impCancel">Cancel</button><button class="btn primary" id="w-impApply">Fill in quantities</button></span>
+      <span style="display:flex;gap:8px"><button class="btn" id="w-impCancel">Cancel</button><button class="btn primary" id="w-impApply" ${on?"":"disabled"}>Fill in quantities</button></span>
     </div>
+    <div class="imp-hint">Tip: drop more PDFs onto this window to add them.</div>
   </div></div>`;
   const notes = () => { const plan = importTotals(); slot.querySelector("#w-impNotes").innerHTML = plan.notes.map(n=>`<div>• ${esc(n)}</div>`).join(""); };
-  slot.querySelectorAll("tbody tr").forEach(tr => {
-    const r = importing.rows[+tr.dataset.i];
-    tr.querySelector("input").oninput = e => { r.qty = Math.max(0, +e.target.value||0); notes(); };
-    tr.querySelector("select").onchange = e => {
-      if (e.target.value==="__none") return;
-      r.pid = e.target.value; r.changed = true;
-      tr.classList.remove("unk"); notes();
-    };
+  slot.querySelectorAll("tbody[data-f]").forEach(tb => {
+    const f = importing.files[+tb.dataset.f];
+    tb.querySelector(".rmfile").onclick = () => { importing.files.splice(+tb.dataset.f, 1); renderImport(); };
+    tb.querySelectorAll("tr[data-r]").forEach(tr => {
+      const r = f.rows[+tr.dataset.r];
+      tr.querySelector(".pick").onchange = e => { r.on = e.target.checked; renderImport(); };
+      tr.querySelector(".iq").oninput = e => { r.qty = Math.max(0, +e.target.value||0); notes(); };
+      tr.querySelector("select").onchange = e => {
+        if (e.target.value==="__none") return;
+        r.pid = e.target.value; r.changed = true; if (!r.on && r.pid) r.on = true; renderImport();
+      };
+      tr.querySelector(".rmrow").onclick = () => { f.rows.splice(+tr.dataset.r, 1); if (!f.rows.length) importing.files.splice(+tb.dataset.f, 1); renderImport(); };
+    });
   });
+  slot.querySelector("#w-impAll").onchange = e => { allRows().forEach(r => r.on = e.target.checked); renderImport(); };
+  slot.querySelector("#w-impRmSel").onclick = () => {
+    importing.files.forEach(f => f.rows = f.rows.filter(r => !r.on));
+    importing.files = importing.files.filter(f => f.rows.length); renderImport();
+  };
+  slot.querySelector("#w-impMore").onclick = () => $("#w-importFile").click();
   slot.querySelectorAll('[name="impMode"]').forEach(x => x.onchange = () => importing.mode = x.value);
-  slot.querySelector("#w-impCancel").onclick = () => { importing = null; renderImport(); };
-  slot.querySelector(".modal-bg").onclick = e => { if (e.target.classList.contains("modal-bg")) { importing = null; renderImport(); } };
+  slot.querySelector("#w-impCancel").onclick = closeImport;
+  slot.querySelector(".modal-bg").onclick = e => { if (e.target.classList.contains("modal-bg")) closeImport(); };
   slot.querySelector("#w-impApply").onclick = applyImport;
   notes();
 }
 function applyImport(){
-  // remember any choices the user made for unrecognised / re-mapped names
-  importing.rows.forEach(r => { if (r.changed) importAliases[normName(r.name)] = r.pid || ""; });
+  allRows().forEach(r => { if (r.changed) importAliases[normName(r.name)] = r.pid || ""; });
   try { localStorage.setItem(IMPORT_ALIAS_KEY, JSON.stringify(importAliases)); } catch(e){}
   const plan = importTotals();
-  if (importing.mode === "replace") { state.qty = {}; state.customs.forEach(c => c.count = 0); }
+  if (importing.mode === "replace") { state.qty = {}; state.customs.forEach(c => c.count = 0); delete state.importInfo; }
   Object.entries(plan.qty).forEach(([id,q]) => state.qty[id] = (state.qty[id]||0) + q);
   Object.assign(state, plan.set);
-  const I = importing.info;
-  state.importInfo = { ref:I.ref || importing.files.join(", "), customer:I.customer||"", order:I.order||"", kg:I.kg||0 };
+  const used = importing.files.filter(f => f.rows.some(r => r.on && r.pid));
+  const prev = state.importInfo && importing.mode==="add" ? state.importInfo : null;
+  const refs = [...(prev ? prev.ref.split(", ") : []), ...used.map(fileTitle)];
+  const customers = [...new Set([...(prev && prev.customer ? prev.customer.split(", ") : []), ...used.map(f => f.info.customer).filter(Boolean)])];
+  const kgs = used.map(f => f.info.kg||0);
+  state.importInfo = { ref:[...new Set(refs)].join(", "), customer:customers.join(", "),
+                       kg: kgs.every(k=>k>0) && (!prev || prev.kg) ? kgs.reduce((a,b)=>a+b,0) + (prev ? prev.kg : 0) : 0 };
   const n = Object.keys(plan.qty).length;
-  importing = null; renderImport(); state.onlySel = true; $("#w-onlySel").checked = true; update();
-  toast(`Filled in ${n} product${n===1?"":"s"} from ${state.importInfo.ref}`);
+  closeImport(); state.onlySel = true; $("#w-onlySel").checked = true; update();
+  toast(`Filled in ${n} product${n===1?"":"s"} from ${used.length} file${used.length===1?"":"s"}`);
 }
-async function importFiles(files){
-  files = [...files].filter(f => /\.pdf$/i.test(f.name) || f.type==="application/pdf" || /\.txt$/i.test(f.name));
-  if (!files.length) { toast("Drop a delivery slip PDF"); return; }
+async function readFile(f){
+  const res = /\.txt$/i.test(f.name) ? parseText(await f.text()) : parseSlip(await pdfRows(f));
+  const rows = [];   // merge repeats within a file (ZU DRV 7/16 × 7 + × 13 → 20)
+  res.lines.forEach(l => { const r = rows.find(x => normName(x.name)===normName(l.name)); if (r) { r.qty += l.qty; r.detail = ""; } else rows.push({ ...l }); });
+  rows.forEach(r => { r.pid = matchProduct(r.name); r.qty = Math.round(r.qty*100)/100; r.on = r.pid !== ""; });
+  return { key: f.name + "|" + f.size, name: f.name, info: res.info, rows };
+}
+async function importFiles(list){
+  const files = [...list].filter(f => /\.(pdf|txt)$/i.test(f.name) || f.type==="application/pdf");
+  if (!files.length) { toast("Drop Odoo PDFs: delivery slips, quotations, orders or invoices"); return; }
   toast("Reading " + (files.length===1 ? files[0].name : files.length+" files") + "…");
-  try {
-    let info = {}, lines = [];
-    for (const f of files) {
-      const res = /\.txt$/i.test(f.name) ? parseText(await f.text()) : parseSlip(await pdfRows(f));
-      info = Object.keys(info).length ? info : res.info; lines = lines.concat(res.lines);
-    }
-    if (!lines.length) { toast("Couldn't find any product lines in that file"); return; }
-    // merge same names (ZU DRV 7/16 × 7 + × 13 → 20), keep slip order
-    const rows = [];
-    lines.forEach(l => { const r = rows.find(x => normName(x.name)===normName(l.name)); if (r) { r.qty += l.qty; r.detail = ""; } else rows.push({ ...l }); });
-    rows.forEach(r => { r.pid = matchProduct(r.name); r.qty = Math.round(r.qty*100)/100; });
-    importing = { info, rows, mode: Object.values(state.qty).some(v=>v>0) ? "replace" : "replace", files: files.map(f=>f.name) };
-    renderImport();
-  } catch(e) {
-    console.error(e);
-    toast(/import|fetch|module/i.test(e.message) ? "Couldn't load the PDF reader — check your internet connection" : "Couldn't read that PDF");
+  const added = [], failed = [], empty = [], dupes = [];
+  for (const f of files) {
+    if (importing && importing.files.some(x => x.key === f.name+"|"+f.size)) { dupes.push(f.name); continue; }
+    try { const r = await readFile(f); (r.rows.length ? added : empty).push(r.rows.length ? r : f.name); }
+    catch(e) { console.error(e); if (/import|fetch|module/i.test(e.message)) { toast("Couldn't load the PDF reader — check your internet connection"); return; } failed.push(f.name); }
   }
+  if (added.length) {
+    if (!importing) importing = { mode:"replace", files:[] };
+    importing.files.push(...added);
+    renderImport();
+  }
+  const msg = [failed.length && `Couldn't read ${failed.join(", ")}`, empty.length && `No product lines in ${empty.join(", ")}`, dupes.length && `Already added: ${dupes.join(", ")}`].filter(Boolean);
+  if (msg.length) toast(msg.join(" · "));
 }
-/* drag & drop anywhere on this tab + button */
+/* drag & drop: anywhere on this tab (incl. the review window) + the drop area */
 let dragDepth = 0;
 const dz = () => $("#w-dropzone");
 const hasFiles = e => [...(e.dataTransfer?.types||[])].includes("Files");
-(typeof ROOT!=="undefined" && ROOT ? ROOT : document.body).addEventListener("dragenter", e => { if (!hasFiles(e)) return; e.preventDefault(); dragDepth++; dz().classList.add("show"); });
-(typeof ROOT!=="undefined" && ROOT ? ROOT : document.body).addEventListener("dragover",  e => { if (hasFiles(e)) e.preventDefault(); });
-(typeof ROOT!=="undefined" && ROOT ? ROOT : document.body).addEventListener("dragleave", e => { if (!hasFiles(e)) return; if (--dragDepth<=0) { dragDepth=0; dz().classList.remove("show"); } });
-(typeof ROOT!=="undefined" && ROOT ? ROOT : document.body).addEventListener("drop", e => { if (!hasFiles(e)) return; e.preventDefault(); dragDepth=0; dz().classList.remove("show"); importFiles(e.dataTransfer.files); });
-$("#w-importBtn").onclick = () => $("#w-importFile").click();
+const DROP_ROOT = (typeof ROOT!=="undefined" && ROOT ? ROOT : document.body);
+DROP_ROOT.addEventListener("dragenter", e => { if (!hasFiles(e)) return; e.preventDefault(); dragDepth++; dz().classList.add("show"); $("#w-dropArea").classList.add("hot"); });
+DROP_ROOT.addEventListener("dragover",  e => { if (hasFiles(e)) { e.preventDefault(); e.dataTransfer.dropEffect = "copy"; } });
+DROP_ROOT.addEventListener("dragleave", e => { if (!hasFiles(e)) return; if (--dragDepth<=0) { dragDepth=0; dz().classList.remove("show"); $("#w-dropArea").classList.remove("hot"); } });
+DROP_ROOT.addEventListener("drop", e => { if (!hasFiles(e)) return; e.preventDefault(); dragDepth=0; dz().classList.remove("show"); $("#w-dropArea").classList.remove("hot"); importFiles(e.dataTransfer.files); });
+$("#w-dropArea").onclick = () => $("#w-importFile").click();
+$("#w-dropArea").onkeydown = e => { if (e.key==="Enter" || e.key===" ") { e.preventDefault(); $("#w-importFile").click(); } };
 $("#w-importFile").onchange = e => { importFiles(e.target.files); e.target.value = ""; };
-document.addEventListener("keydown", e => { if (e.key==="Escape" && importing) { importing=null; renderImport(); } });
+document.addEventListener("keydown", e => { if (e.key==="Escape" && importing) closeImport(); });
 
 /* ---------- WIRING ---------- */
+$("#w-lines").addEventListener("click", e => {
+  const b = e.target.closest("[data-rm],[data-rmc]"); if (!b) return;
+  if (b.dataset.rm) delete state.qty[b.dataset.rm];
+  else { const c = state.customs.find(c => c.id===b.dataset.rmc); if (c) c.count = 0; }
+  update();
+});
 $("#w-chips").innerHTML = ["All", ...GROUPS, "Custom"].map(g=>`<button class="chip" data-g="${g}">${g==="Custom"?"Custom boxes":g}</button>`).join("");
 $("#w-chips").querySelectorAll(".chip").forEach(c => c.onclick = () => { state.group = c.dataset.g; update(); });
 ROOT.querySelectorAll("[data-pal]").forEach(b => b.onclick = () => { state.pallets = Math.max(0,(state.pallets||0) + +b.dataset.pal); update(); });
