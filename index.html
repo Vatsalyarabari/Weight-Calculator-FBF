@@ -295,6 +295,8 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
 #tab-weight .imp-table tr.off td{opacity:.45}
 #tab-weight .imp-table tr.off td:first-child{opacity:1}
 #tab-weight .imp-table input[type=checkbox]{width:16px;height:16px;accent-color:var(--orange)}
+#tab-weight .dupwarn{margin:12px 18px 0;padding:8px 10px;border-radius:4px;background:#fff4d6;color:#6b4e00;border-left:3px solid var(--orange);font-size:13.5px}
+#tab-weight [data-theme=dark] .dupwarn{background:#3a3220;color:#f3d48b}
 #tab-weight .imp-hint{padding:0 18px 12px;font-size:12px;color:var(--ink-2)}
 #tab-weight .btn[disabled]{opacity:.45;cursor:not-allowed}
 #tab-weight .editor{background:var(--panel);border:1px solid var(--orange);border-radius:4px;padding:16px;margin-bottom:14px;display:grid;gap:12px}
@@ -1329,12 +1331,12 @@ function parseSlip(rows){
   /* Works for Odoo delivery slips ("144.00000 Units", Ordered/Delivered columns) and for
      quotations / sale orders / invoices (Description · Qty · Price … table). */
   const info = {}, sections = { delivered:[], quantity:[] };
-  let mode = null, productX = null, qtyX = null, shipX = null, addrNext = false;
+  let mode = null, productX = null, qtyX = null, nameEndX = null, shipX = null, addrNext = false;
   rows.forEach(r => {
     const t = r.text, c0 = r.cells[0];
     let m;
     if (!info.ref && (m = t.match(/\b([A-Z]{2,6}(?:-[A-Z])?\/OUT\/\d+)\b/))) info.ref = m[1];
-    if (!info.ref && (m = t.match(/^(Quotation|Sales Order|Order|Invoice|Pro-?forma Invoice)\s*#?\s*(\S+)/i))) info.ref = `${m[1]} ${m[2]}`;
+    if (!info.ref && (m = t.match(/^(Quotation|Sales Order|Order|Invoice|Pro-?forma Invoice|Picking Operations|Picking|Packing Slip|Delivery Slip)\s*#\s*(\S+)/i))) { info.ref = `${m[1]} ${m[2]}`; info.doc = m[2]; }
     if (!info.order && (m = t.match(/Order:\s*(\S+)/))) info.order = m[1];
     if (!info.kg && (m = t.match(/Weight:\s*([\d,]+(?:\.\d+)?)\s*(kg|lb)/i))) info.kg = m[2].toLowerCase()==="lb" ? num(m[1])*0.45359237 : num(m[1]);
     if (!info.date && (m = t.match(/(?:Shipping|Scheduled|Quotation|Order|Invoice) Date:\s*(\S+)/))) info.date = m[1];
@@ -1348,7 +1350,7 @@ function parseSlip(rows){
     // table header
     if (/^(Product|Description|Item)\b/i.test(c0.s) && r.cells.some(c => /^(Qty|Quantity|Ordered|Delivered|Done|Demand)$/i.test(c.s))) {
       mode = /Delivered/.test(t) ? "delivered" : "quantity";
-      productX = c0.x;
+      productX = c0.x; nameEndX = r.cells[1] ? r.cells[1].x : null;   // product name stops at the next column (HS Code, Qty…)
       const qc = r.cells.find(c => /^Delivered$/i.test(c.s)) || r.cells.find(c => /^(Qty|Quantity|Done|Demand|Ordered)$/i.test(c.s));
       qtyX = qc ? qc.x : null; return;
     }
@@ -1365,11 +1367,12 @@ function parseSlip(rows){
       const qc = r.cells.filter(c => c !== c0 && NUM.test(c.s.replace(/\s*(Units?|pcs|ea)$/i,"")) && Math.abs(c.x - qtyX) < 30)
                         .sort((a,b) => Math.abs(a.x-qtyX) - Math.abs(b.x-qtyX))[0];
       if (!qc) return;
-      name = r.cells.filter(c => c.x < qc.x - 20).map(c=>c.s).join(" ");
+      name = r.cells.filter(c => c.x < (nameEndX !== null ? Math.min(nameEndX, qc.x) : qc.x) - 5).map(c=>c.s).join(" ");
       qty = num(qc.s);
     } else return;
     name = name.trim();
-    const detail = r.cells.length > 2 && ui.length ? r.cells[r.cells.length-1].s : "";
+    const lastC = r.cells[r.cells.length-1];
+    const detail = r.cells.length > 2 && (ui.length || (qtyX !== null && lastC.x > qtyX + 20 && /[A-Za-z+]/.test(lastC.s))) ? lastC.s : "";
     if (name && qty >= 0) sections[mode].push({ name, qty, detail });
   });
   const lines = sections.delivered.length ? sections.delivered : sections.quantity;
@@ -1453,6 +1456,12 @@ function importTotals(){
   return packagingPlan(qty);
 }
 const fileTitle = f => f.info.ref || f.name;
+const orderNo = f => f.info.order || f.info.doc || "";
+function sameOrder(){
+  const g = {};
+  importing.files.forEach(f => { const n = orderNo(f); if (n && f.rows.some(r => r.on)) (g[n] = g[n] || []).push(f); });
+  return Object.entries(g).filter(([,fs]) => fs.length > 1).map(([no,files]) => ({ no, files }));
+}
 function closeImport(){ importing = null; renderImport(); }
 function renderImport(){
   const slot = $("#w-importSlot");
@@ -1461,6 +1470,7 @@ function renderImport(){
   const multi = importing.files.length > 1;
   slot.innerHTML = `<div class="modal-bg"><div class="modal" role="dialog" aria-modal="true" aria-label="Import PDFs">
     <h3>${multi ? `Import ${importing.files.length} files` : `Import ${esc(fileTitle(importing.files[0]))}`}</h3>
+    ${sameOrder().length ? `<div class="dupwarn">⚠ ${sameOrder().map(g => `<b>${esc(g.no)}</b> appears in ${g.files.map(f=>esc(fileTitle(f))).join(", ").replace(/, ([^,]*)$/," and $1")}`).join("; ")}. That's the same order. Keep only one of these, or it gets counted more than once.</div>` : ""}
     <div class="meta">${on} of ${rows.length} lines selected${unk ? ` · <b style="color:var(--gold)">${unk} not recognised</b>: pick a product, or untick it. Your choice is remembered next time.` : ""}</div>
     <div class="imp-body"><table class="imp-table">
       <thead><tr><th style="width:34px"><input type="checkbox" id="w-impAll" title="Select all / none" ${on===rows.length?"checked":""}></th><th>On the PDF</th><th style="text-align:right">Qty</th><th style="width:44%">Calculator product</th><th style="width:34px"></th></tr></thead>
